@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';  // Header 컴포넌트 임포트
 import LatestPage from './pages/LatestPage';  // LatestPage 컴포넌트 임포트
 import MyPage from './pages/MyPage';  // MyPage 컴포넌트 임포트
@@ -15,6 +15,8 @@ function App() {
       <div style={{ padding: '20px' }}>
         {/* Routes와 Route를 통해 페이지 렌더링 */}
         <Routes>
+          {/* 기본 경로에 대한 리다이렉트 설정 */}
+          <Route path="/" element={<Navigate to="/main" replace />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/latest" element={<LatestPage />} />
           <Route path="/my" element={<MyPage />} />
