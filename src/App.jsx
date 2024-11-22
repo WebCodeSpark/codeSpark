@@ -8,6 +8,7 @@ import MainPage from './pages/MainPage';
 import LinkPage from './pages/LinkPage';  // LinkPage 컴포넌트 임포트
 import CalendarPage from './pages/CalendarPage'; // Calendar 컴포넌트 임포트
 import FollowPage from './pages/FollowPage'; // Follow 컴포넌트 임포트
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/follow" element={<FollowPage />} />
         </Routes>
       </div>
+      <Footer />
     </Router>
   );
 }
