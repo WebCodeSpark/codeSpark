@@ -1,10 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import Header from './components/Header';  // Header 컴포넌트 임포트
 import LatestPage from './pages/LatestPage';  // LatestPage 컴포넌트 임포트
 import MyPage from './pages/MyPage';  // MyPage 컴포넌트 임포트
 import ProfilePage from './pages/ProfilePage';  // ProfilePage 컴포넌트 임포트
 import MainPage from './pages/MainPage';
+import LinkPage from './pages/LinkPage';  // LinkPage 컴포넌트 임포트
+import CalendarPage from './pages/CalendarPage'; // Calendar 컴포넌트 임포트
+import FollowPage from './pages/FollowPage'; // Follow 컴포넌트 임포트
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
           <Route path="/latest" element={<LatestPage />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/link" element={<LinkPage />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/follow" element={<FollowPage />} />
         </Routes>
       </div>
     </Router>
