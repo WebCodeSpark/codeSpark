@@ -28,6 +28,12 @@ export default function Header() {
           <li style={liStyle}>
             <Link to="/follow" style={linkStyle}>팔로우</Link>
           </li>
+          <li style={liStyle}>
+            <Link to="/search" style={linkStyle}>검색</Link>
+          </li>
+          <li style={liStyle}>
+            <Link to="/upload" style={linkStyle}>새 글 작성</Link>
+          </li>
         </ul>
       </nav>
     </header>
