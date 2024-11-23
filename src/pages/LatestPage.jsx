@@ -50,6 +50,7 @@ export default function LatestPage() {
   const [comments, setComments] = useState({});
   const [commentInput, setCommentInput] = useState({});
   const [editingPosts, setEditingPosts] = useState({});
+  const [editingComment, setEditingComment] = useState({});
 
   // Fetch posts on mount
   useEffect(() => {
@@ -131,6 +132,26 @@ export default function LatestPage() {
     });
   };
 
+    // 댓글 수정
+// Handle editing a comment
+  const onEditComment = (postId, commentId) => {
+    setEditingComment({ postId, commentId });
+  };
+
+ // Submit the edited comment
+ const onSubmitEditComment = (postId, commentId) => {
+  const updatedComments = comments[postId].map((comment) =>
+    comment.id === commentId
+      ? { ...comment, text: editingComment.text }
+      : comment
+  );
+  setComments({
+    ...comments,
+    [postId]: updatedComments,
+  });
+  setEditingComment({}); // Exit editing mode
+};
+    
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1 style={{ textAlign: 'center' }}>커뮤니티</h1>
@@ -240,6 +261,8 @@ export default function LatestPage() {
               </>
             )}
 
+        
+          
             {/* Comments */}
             <div style={{ marginTop: '10px' }}>
               <h3>댓글</h3>
@@ -247,21 +270,76 @@ export default function LatestPage() {
                 <ul>
                   {comments[post.id].map((comment) => (
                     <li key={comment.id} style={{ marginBottom: '10px' }}>
-                      {comment.text}
-                      <button
-                        onClick={() => onDeleteComment(post.id, comment.id)}
-                        style={{
-                          padding: '5px',
-                          backgroundColor: '#e74c3c',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '3px',
-                          cursor: 'pointer',
-                          marginLeft: '5px',
-                        }}
-                      >
-                        삭제
-                      </button>
+                      {editingComment.postId === post.id &&
+                      editingComment.commentId === comment.id ? (
+                        <div>
+                          <input
+                            type="text"
+                            value={editingComment.text}
+                            onChange={(e) =>
+                              setEditingComment({
+                                ...editingComment,
+                                text: e.target.value,
+                              })
+                            }
+                            style={{
+                              padding: '5px',
+                              borderRadius: '5px',
+                              border: '1px solid #ccc',
+                              marginRight: '5px',
+                            }}
+                          />
+                          <button
+                            onClick={() =>
+                              onSubmitEditComment(post.id, comment.id)
+                            }
+                            style={{
+                              padding: '5px',
+                              backgroundColor: '#4CAF50',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '3px',
+                              cursor: 'pointer',
+                            }}
+                          >
+                            확인
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          {comment.text}
+                          <button
+                            onClick={() => onDeleteComment(post.id, comment.id)}
+                            style={{
+                              padding: '5px',
+                              backgroundColor: '#e74c3c',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '3px',
+                              cursor: 'pointer',
+                              marginLeft: '5px',
+                            }}
+                          >
+                            삭제
+                          </button>
+                          <button
+                            onClick={() =>
+                              onEditComment(post.id, comment.id, comment.text)
+                            }
+                            style={{
+                              padding: '5px',
+                              backgroundColor: '#f39c12',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '3px',
+                              cursor: 'pointer',
+                              marginLeft: '5px',
+                            }}
+                          >
+                            수정
+                          </button>
+                        </>
+                      )}
                     </li>
                   ))}
                 </ul>

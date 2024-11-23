@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import Header from './components/Header';  // Header 컴포넌트 임포트
 import LatestPage from './pages/LatestPage';  // LatestPage 컴포넌트 임포트
@@ -9,8 +9,14 @@ import LinkPage from './pages/LinkPage';  // LinkPage 컴포넌트 임포트
 import CalendarPage from './pages/CalendarPage'; // Calendar 컴포넌트 임포트
 import FollowPage from './pages/FollowPage'; // Follow 컴포넌트 임포트
 import Footer from './components/Footer';
+import SearchPage from'./pages/SearchPage';
+import UploadPage from './pages/UploadPage';
+import PostPage  from './pages/PostPage';
 
 function App() {
+
+  const [posts, setPosts] = useState([]);
+
   return (
     <Router>
       {/* Header 컴포넌트 렌더링 */}
@@ -28,6 +34,10 @@ function App() {
           <Route path="/link" element={<LinkPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/follow" element={<FollowPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/upload" element={<UploadPage posts={posts} setPosts={setPosts} />} />
+          <Route path="/post/:postId" element={<PostPage posts={posts} setPosts={setPosts} />} />
+
         </Routes>
       </div>
       <Footer />
