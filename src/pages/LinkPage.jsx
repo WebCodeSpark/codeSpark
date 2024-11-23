@@ -28,7 +28,7 @@ export default function LinkPage() {
 function Link({ data }) {
   return (
       <a href={data.url} target="_blank">
-      <img src={data.source} alt="link" style={{ width: 70, borderRadius: '10%' }} />
+      <img src={data.source} alt="link" style={{ width: 40, borderRadius: '10%' }} />
     </a>
   );
 }

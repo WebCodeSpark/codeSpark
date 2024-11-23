@@ -20,9 +20,6 @@ export default function Header() {
             <Link to="/profile" style={linkStyle}>프로필</Link>
           </li>
           <li style={liStyle}>
-            <Link to="/link" style={linkStyle}>링크</Link>
-          </li>
-          <li style={liStyle}>
             <Link to="/calendar" style={linkStyle}>캘린더</Link>
           </li>
           <li style={liStyle}>
