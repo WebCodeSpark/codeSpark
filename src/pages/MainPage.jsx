@@ -8,37 +8,72 @@ export default function MainPage() {
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(url);
-      setTodos(response.data.slice(0, 10)); // 제한된 개수만 가져오기
+      try {
+        const response = await axios.get(url);
+        setTodos(
+          response.data.slice(0, 10).map((item) => ({
+            id: item.id,
+            title: item.title,
+            check: item.completed,
+          }))
+        );
+      } catch (error) {
+        console.error('초기 데이터를 불러오는 중 오류 발생:', error.message);
+      }
     })();
   }, []);
 
   const onAdd = async (text) => {
-    const response = await axios.post(url, {
-      title: text,
-      checked: true,
-      userId: 1,
-    });
-
-    const id = response.data.id;
-    setTodos([...todos, { id, title: text, check: false }]);
+    try {
+      await axios.post(url, {
+        title: text,
+        completed: false,
+        userId: 1,
+      });
+  
+      const id = Math.random().toString(36).substr(2, 9); // 로컬 고유 ID 생성
+      setTodos((prevTodos) => [
+        ...prevTodos,
+        { id, title: text, check: false },
+      ]);
+    } catch (error) {
+      console.error('할 일을 추가하는 중 오류 발생:', error.message);
+      alert('할 일을 추가하는 데 실패했습니다.');
+    }
   };
+  
+  
 
   const onDelete = async (id) => {
-    await axios.delete(url + '/' + id);
-    setTodos(todos.filter((todo) => todo.id !== id));
+    try {
+      if (id.length <= 5) { // JSONPlaceholder ID만 서버 요청
+        await axios.delete(`${url}/${id}`);
+      }
+    } catch (error) {
+      console.warn('서버 삭제 실패. 로컬 상태에서만 삭제합니다.');
+    }
+    // 로컬 상태 업데이트
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
+  
 
   const onUpdate = async (id, check) => {
-    await axios.put(url + '/' + id, { check });
-    setTodos(
-      todos.map((todo) => {
-        if (todo.id === id) return { ...todo, check };
-        return todo;
-      })
+    try {
+      if (id.length <= 5) { // JSONPlaceholder ID만 서버 업데이트
+        await axios.put(`${url}/${id}`, { completed: check });
+      }
+    } catch (error) {
+      console.warn('서버 업데이트 실패. 로컬 상태만 업데이트합니다.');
+    }
+    // 로컬 상태 업데이트
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, check } : todo
+      )
     );
   };
-
+  
+  
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto', fontFamily: 'Arial, sans-serif' }}>
       <h1 style={{ color: '#333' }}>투두리스트</h1>

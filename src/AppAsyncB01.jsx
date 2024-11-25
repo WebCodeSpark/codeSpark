@@ -21,24 +21,28 @@ export default function AppASyncB01() {
   const onAdd = async (text) => {
     const response = await axios.post(url, {
       title: text,
-      checked: true,
+      checked: false,
       userId: 1,
     });
 
     const id = response.data.id;
-    setTodos([...todos, { id, title: text, check: false }]);
+    setTodos([...todos, { id, title: text, checked: false }]);
   };
 
   const onDelete = async (id) => {
     await axios.delete(url + '/' + id);
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, checked } : todo
+      )
+    );
   };
 
-  const onUpdate = async (id, check) => {
-    await axios.put(url + '/' + id, { check });
+  const onUpdate = async (id, checked) => {
+    await axios.put(url + '/' + id, { checked });
     setTodos(
       todos.map((todo) => {
-        if (todo.id === id) return { ...todo, check };
+        if (todo.id === id) return { ...todo, checked };
         return todo;
       })
     );
@@ -85,12 +89,12 @@ export default function AppASyncB01() {
             }}
           >
             <span
-              onClick={() => onUpdate(todo.id, !todo.check)}
+              onClick={() => onUpdate(todo.id, !todo.checked)}
               style={{
                 flex: 1,
                 fontSize: '20px',
-                textDecoration: todo.check ? 'line-through' : 'none',
-                color: todo.check ? '#aaa' : '#333',
+                textDecoration: todo.checked ? 'line-through' : 'none',
+                color: todo.checked ? '#aaa' : '#333',
                 cursor: 'pointer',
               }}
             >

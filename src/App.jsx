@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Header from './components/Header';  // Header 컴포넌트 임포트
 import LatestPage from './pages/LatestPage';  // LatestPage 컴포넌트 임포트
 import MyPage from './pages/MyPage';  // MyPage 컴포넌트 임포트
