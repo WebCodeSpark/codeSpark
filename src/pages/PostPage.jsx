@@ -1,19 +1,47 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-function Update({ title, body, onUpdate }) {
+function Update({ title, body, hashTags, onUpdate }) {
   const [newTitle, setNewTitle] = useState(title);
-  const navigate = useNavigate();
   const [newBody, setNewBody] = useState(body);
+  const [newInputHashTag, setNewInputHashTag] = useState('');
+  const [newHashTags, setNewHashTags] = useState(hashTags || []);
+
+  const changeHashTagInput = (e) => {
+    setNewInputHashTag(e.target.value);
+  };
+
+  const addHashTag = (e) => {
+    if (e.key === 'Enter' && newInputHashTag.trim()) {
+      e.preventDefault(); // 폼 제출 방지
+      e.stopPropagation(); // 이벤트 전파 중단
+      if (newHashTags.length < 5 && !newHashTags.includes(newInputHashTag.trim())) {
+        setNewHashTags([...newHashTags, newInputHashTag.trim()]);
+        setNewInputHashTag(''); // 입력창 초기화
+      }
+    }
+  };
+  
+
+  const keyDownHandler = (e) => {
+    if (e.key === ' ' && !newInputHashTag.trim()) {
+      e.preventDefault();
+    }
+  };
+
+  const removeHashTag = (tagToRemove) => {
+    setNewHashTags(newHashTags.filter((tag) => tag !== tagToRemove));
+  };
 
   return (
     <div>
       <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          onUpdate(newTitle, newBody); // Calls the passed onUpdate prop with new title and body
-        }}
-      >
+      onSubmit={(event) => {
+        event.preventDefault(); // 기본 폼 제출 방지
+        onUpdate(newTitle, newBody, newHashTags);
+      }}
+    >
+
         <p>제목</p>
         <input
           type="text"
@@ -28,6 +56,49 @@ function Update({ title, body, onUpdate }) {
           rows="5"
           style={{ width: '100%', marginBottom: '10px', padding: '5px' }}
         />
+        <input
+          value={newInputHashTag}
+          onChange={changeHashTagInput}
+          onKeyDown={addHashTag} // Enter 키로 해시태그 추가
+          onKeyUp={keyDownHandler} // 빈 공백 방지
+          placeholder="#해시태그를 등록해보세요. (최대 5개)"
+          style={{
+            width: '100%',
+            padding: '10px',
+            marginBottom: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+          }}
+        />
+
+        <div style={{ marginBottom: '10px' }}>
+          {newHashTags.map((tag, index) => (
+            <span
+              key={index}
+              style={{
+                display: 'inline-block',
+                backgroundColor: '#f0f0f0',
+                color: '#333',
+                padding: '5px 10px',
+                margin: '5px',
+                borderRadius: '15px',
+                fontSize: '14px',
+              }}
+            >
+              {tag}{' '}
+              <span
+                onClick={() => removeHashTag(tag)}
+                style={{
+                  marginLeft: '5px',
+                  color: '#999',
+                  cursor: 'pointer',
+                }}
+              >
+                &times;
+              </span>
+            </span>
+          ))}
+        </div>
         <button
           type="submit"
           style={{
@@ -45,6 +116,7 @@ function Update({ title, body, onUpdate }) {
     </div>
   );
 }
+
 
 export default function PostPage({ posts, setPosts }) {
   const { postId } = useParams(); // URL의 :postId를 가져옴
@@ -71,7 +143,7 @@ export default function PostPage({ posts, setPosts }) {
     navigate('/'); // 삭제 후 메인 페이지로 이동
   };
 
-  const onUpdate = (title, body) => {
+  const onUpdate = (title, body, hashTags) => {
     setPosts(
       posts.map((p) =>
         p.id === post.id
@@ -79,6 +151,7 @@ export default function PostPage({ posts, setPosts }) {
               ...p,
               title,
               body,
+              hashTags,
             }
           : p
       )
@@ -134,11 +207,41 @@ export default function PostPage({ posts, setPosts }) {
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       {isEditing ? (
-        <Update title={post.title} body={post.body} onUpdate={onUpdate} />
+        <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
       ) : (
         <>
           <h1>{post.title}</h1>
           <p>{post.body}</p>
+
+
+          {/* 해시태그 표시 */}
+          <div style={{ marginTop: '10px' }}>
+            <h4>해시태그</h4>
+            {post.hashTags && post.hashTags.length > 0 ? (
+              <div>
+                {post.hashTags.map((tag, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      display: 'inline-block',
+                      backgroundColor: '#f0f0f0',
+                      color: '#333',
+                      padding: '5px 10px',
+                      margin: '5px',
+                      borderRadius: '15px',
+                      fontSize: '14px',
+                    }}
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p>해시태그가 없습니다.</p>
+            )}
+          </div>
+
+
           <div style={{ marginTop: '20px' }}>
             <button
               onClick={() => setIsEditing(true)}

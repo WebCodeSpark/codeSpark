@@ -10,7 +10,7 @@ export default function ListPage({ posts, setPosts }) {
       if (!posts || posts.length === 0) {
         const response = await fetch('https://jsonplaceholder.typicode.com/posts');
         const data = await response.json();
-        setPosts(data.slice(0, 10)); // 데이터의 첫 10개만 설정
+        setPosts(data.slice(0, 3).reverse()); // 3개만
       }
     })();
   }, [posts, setPosts]);
@@ -26,7 +26,6 @@ export default function ListPage({ posts, setPosts }) {
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ textAlign: 'center' }}>코드스파크 목록</h1>
       <button
         onClick={() => navigate('/upload')}
         style={{
@@ -56,6 +55,22 @@ export default function ListPage({ posts, setPosts }) {
           >
             <h2 style={{ fontSize: '1.2rem', marginBottom: '10px' }}>{post.title}</h2>
             <p style={{ fontSize: '1rem', marginBottom: '10px' }}>{post.body}</p>
+            {post.hashTags && post.hashTags.length > 0 && (
+                <div>
+                <span style={{
+                  display: 'inline-block',
+                  backgroundColor: '#f0f0f0',
+                  color: '#333',
+                  padding: '5px 10px',
+                  margin: '5px',
+                  borderRadius: '15px',
+                  fontSize: '14px',
+                }}>
+                  # {post.hashTags.join(' , # ')}
+                </span>
+                </div>
+              )}
+
             <button
               onClick={() => navigate(`/post/${post.id}`)}
               style={{
