@@ -33,7 +33,7 @@ function App() {
           <Route path="/link" element={<LinkPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/follow" element={<FollowPage />} />
-          <Route path="/search" element={<SearchPage />} />
+          <Route path="/search" element={<SearchPage posts={posts} />} />
           <Route path="/upload" element={<UploadPage posts={posts} setPosts={setPosts} />} />
           <Route path="/post/:postId" element={<PostPage posts={posts} setPosts={setPosts} />} />
           <Route path="/list" element={<ListPage posts={posts} setPosts={setPosts} />} />
