@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Calendar from "react-calendar";
+import 'react-calendar/dist/Calendar.css'; // 기본 스타일
 
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
 export default function MainPage() {
   const [todos, setTodos] = useState([]);
+  const [calendarValue, setCalendarValue] = useState(new Date());
 
   useEffect(() => {
     (async () => {
@@ -41,44 +44,54 @@ export default function MainPage() {
       alert('할 일을 추가하는 데 실패했습니다.');
     }
   };
-  
-  
 
   const onDelete = async (id) => {
     try {
-      if (id.length <= 5) { // JSONPlaceholder ID만 서버 요청
+      if (id.length <= 5) {
         await axios.delete(`${url}/${id}`);
       }
     } catch (error) {
       console.warn('서버 삭제 실패. 로컬 상태에서만 삭제합니다.');
     }
-    // 로컬 상태 업데이트
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
-  
 
   const onUpdate = async (id, check) => {
     try {
-      if (id.length <= 5) { // JSONPlaceholder ID만 서버 업데이트
+      if (id.length <= 5) {
         await axios.put(`${url}/${id}`, { completed: check });
       }
     } catch (error) {
       console.warn('서버 업데이트 실패. 로컬 상태만 업데이트합니다.');
     }
-    // 로컬 상태 업데이트
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, check } : todo
       )
     );
   };
-  
-  
+
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ color: '#333' }}>투두리스트</h1>
-      <TodoInput onAdd={onAdd} />
-      <TodoList todos={todos} onDelete={onDelete} onUpdate={onUpdate} />
+    <div
+      style={{
+        display: 'flex',
+        gap: '20px',
+        padding: '20px',
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
+      {/* 왼쪽 캘린더 */}
+      <div style={{ flex: '1', maxWidth: '50%' }}>
+        <h1 style={{ color: '#333', textAlign: 'center' }}>캘린더</h1>
+        <Calendar onChange={setCalendarValue} value={calendarValue} />
+      </div>
+
+      {/* 오른쪽 투두리스트 */}
+      <div style={{ flex: '1', maxWidth: '50%' }}>
+        <h1 style={{ color: '#333' }}>투두리스트</h1>
+        <TodoInput onAdd={onAdd} />
+        <TodoList todos={todos} onDelete={onDelete} onUpdate={onUpdate} />
+      </div>
     </div>
   );
 }
