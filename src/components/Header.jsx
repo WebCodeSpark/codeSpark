@@ -11,7 +11,7 @@ export default function Header() {
             <Link to="/main" style={linkStyle}>스파크</Link>
           </li>
           <li style={liStyle}>
-            <Link to="/latest" style={linkStyle}>최신</Link>
+            <Link to="/list" style={linkStyle}>최신 글</Link>
           </li>
           <li style={liStyle}>
             <Link to="/my" style={linkStyle}>마이</Link>

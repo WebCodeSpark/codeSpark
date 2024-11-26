@@ -51,6 +51,11 @@ export default function PostPage({ posts, setPosts }) {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
+  // 댓글
+  const [comments, setComments] = useState({});
+  const [commentInput, setCommentInput] = useState('');
+  const [editingComment, setEditingComment] = useState(null);
+
   const post = posts.find((p) => p.id === parseInt(postId));
 
   if (!post) {
@@ -81,13 +86,57 @@ export default function PostPage({ posts, setPosts }) {
     setIsEditing(false); // 수정 완료 후 수정 모드 종료
   };
 
+   // 댓글 추가
+   const onAddComment = (comment) => {
+    if (comment.trim() === '') return;
+    const postComments = comments[post.id] || [];
+    const newComment = {
+      id: new Date().getTime(),
+      text: comment,
+    };
+    setComments({
+      ...comments,
+      [post.id]: [...postComments, newComment],
+    });
+    setCommentInput('');
+  };
+
+  // 댓글 삭제
+  const onDeleteComment = (commentId) => {
+    const updatedComments = comments[post.id].filter(
+      (comment) => comment.id !== commentId
+    );
+    setComments({
+      ...comments,
+      [post.id]: updatedComments,
+    });
+  };
+
+  // 댓글 수정
+  const onEditComment = (commentId, text) => {
+    setEditingComment({ id: commentId, text });
+  };
+
+  const onSubmitEditComment = () => {
+    const updatedComments = comments[post.id].map((comment) =>
+      comment.id === editingComment.id
+        ? { ...comment, text: editingComment.text }
+        : comment
+    );
+    setComments({
+      ...comments,
+      [post.id]: updatedComments,
+    });
+    setEditingComment(null);
+  };
+
+
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       {isEditing ? (
         <Update title={post.title} body={post.body} onUpdate={onUpdate} />
       ) : (
         <>
-          <h1>{post.id}</h1>
           <h1>{post.title}</h1>
           <p>{post.body}</p>
           <div style={{ marginTop: '20px' }}>
@@ -118,21 +167,129 @@ export default function PostPage({ posts, setPosts }) {
             >
               삭제
             </button>
-            <br/>
-            <button 
-            onClick={() => navigate('/latest')}
-            style={{
+            <br />
+            <button
+              onClick={() => navigate('/list')}
+              style={{
                 padding: '10px 20px',
                 backgroundColor: 'gray',
-                marginTop:'10px',
+                marginTop: '10px',
                 color: 'white',
                 border: 'none',
                 borderRadius: '5px',
                 cursor: 'pointer',
-              }}>목록</button>
+              }}
+            >
+              목록
+            </button>
           </div>
         </>
       )}
+
+      {/* 댓글 섹션 */}
+      <div style={{ marginTop: '30px' }}>
+        <h3>댓글</h3>
+        {comments[post.id] && comments[post.id].length > 0 ? (
+          <ul>
+            {comments[post.id].map((comment) => (
+              <li key={comment.id} style={{ marginBottom: '10px' }}>
+                {editingComment && editingComment.id === comment.id ? (
+                  <div>
+                    <input
+                      type="text"
+                      value={editingComment.text}
+                      onChange={(e) =>
+                        setEditingComment({ ...editingComment, text: e.target.value })
+                      }
+                      style={{
+                        padding: '5px',
+                        marginRight: '5px',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px',
+                      }}
+                    />
+                    <button
+                      onClick={onSubmitEditComment}
+                      style={{
+                        padding: '5px',
+                        backgroundColor: '#4CAF50',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '3px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      확인
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {comment.text}
+                    <button
+                      onClick={() => onDeleteComment(comment.id)}
+                      style={{
+                        marginLeft: '10px',
+                        padding: '5px',
+                        backgroundColor: '#e74c3c',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '3px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      삭제
+                    </button>
+                    <button
+                      onClick={() => onEditComment(comment.id, comment.text)}
+                      style={{
+                        marginLeft: '10px',
+                        padding: '5px',
+                        backgroundColor: '#f39c12',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '3px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      수정
+                    </button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>댓글이 없습니다.</p>
+        )}
+        <div style={{ marginTop: '10px' }}>
+          <input
+            type="text"
+            value={commentInput}
+            onChange={(e) => setCommentInput(e.target.value)}
+            placeholder="댓글을 입력하세요"
+            style={{
+              width: '80%',
+              padding: '5px',
+              marginRight: '5px',
+              borderRadius: '5px',
+              border: '1px solid #ccc',
+            }}
+          />
+          <button
+            onClick={() => onAddComment(commentInput)}
+            style={{
+              padding: '5px 10px',
+              backgroundColor: '#3498db',
+              color: 'white',
+              border: 'none',
+              borderRadius: '3px',
+              cursor: 'pointer',
+            }}
+          >
+            댓글 작성
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
