@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Header from './components/Header';  // Header 컴포넌트 임포트
-import LatestPage from './pages/LatestPage';  // LatestPage 컴포넌트 임포트
 import MyPage from './pages/MyPage';  // MyPage 컴포넌트 임포트
 import ProfilePage from './pages/ProfilePage';  // ProfilePage 컴포넌트 임포트
 import MainPage from './pages/MainPage';
@@ -12,6 +11,7 @@ import Footer from './components/Footer';
 import SearchPage from'./pages/SearchPage';
 import UploadPage from './pages/UploadPage';
 import PostPage  from './pages/PostPage';
+import ListPage  from './pages/ListPage';
 
 function App() {
 
@@ -28,7 +28,6 @@ function App() {
           {/* 기본 경로에 대한 리다이렉트 설정 */}
           <Route path="/" element={<Navigate to="/main" replace />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/latest" element={<LatestPage />} />
           <Route path="/my" element={<MyPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/link" element={<LinkPage />} />
@@ -37,7 +36,7 @@ function App() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/upload" element={<UploadPage posts={posts} setPosts={setPosts} />} />
           <Route path="/post/:postId" element={<PostPage posts={posts} setPosts={setPosts} />} />
-
+          <Route path="/list" element={<ListPage posts={posts} setPosts={setPosts} />} />
         </Routes>
       </div>
       <Footer />
