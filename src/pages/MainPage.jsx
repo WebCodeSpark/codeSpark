@@ -81,14 +81,14 @@ export default function MainPage() {
       }}
     >
       {/* 왼쪽 캘린더 */}
-      <div style={{ flex: '1', maxWidth: '50%' }}>
+      <div style={{ flex: '1', maxWidth: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h1 style={{ color: '#333', textAlign: 'center' }}>캘린더</h1>
         <Calendar onChange={setCalendarValue} value={calendarValue} />
       </div>
 
       {/* 오른쪽 투두리스트 */}
-      <div style={{ flex: '1', maxWidth: '50%' }}>
-        <h1 style={{ color: '#333' }}>투두리스트</h1>
+      <div style={{ flex: '1', maxWidth: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <h1 style={{ color: '#333', textAlign: 'center' }}>투두리스트</h1>
         <TodoInput onAdd={onAdd} />
         <TodoList todos={todos} onDelete={onDelete} onUpdate={onUpdate} />
       </div>
@@ -130,7 +130,7 @@ function TodoInput({ onAdd }) {
 // TodoList 컴포넌트
 function TodoList({ todos, onDelete, onUpdate }) {
   return (
-    <div style={{ marginTop: '10px' }}>
+    <div style={{ marginTop: '10px', width: '100%' }}>
       {todos.map((todo) => (
         <TodoItem key={todo.id} todo={todo} onDelete={onDelete} onUpdate={onUpdate} />
       ))}
