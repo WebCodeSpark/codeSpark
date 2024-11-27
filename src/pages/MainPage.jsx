@@ -46,7 +46,7 @@ const StyledCalendarWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 4px; /* 셀 간 간격 */
+    margin: 10px 0 !important;
     font-size: 0.9rem; /* 글자 크기 살짝 줄임 */
     border-radius: 6px;
   }
@@ -72,6 +72,7 @@ const StyledCalendarWrapper = styled.div`
     background-color: ${(props) => props.theme?.yellow_2 || "#ffdd57"};
     border-radius: 6px;
   }
+
 `;
 
 const StyledDate = styled.div`
