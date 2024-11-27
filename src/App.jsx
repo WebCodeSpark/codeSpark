@@ -12,6 +12,7 @@ import SearchPage from'./pages/SearchPage';
 import UploadPage from './pages/UploadPage';
 import PostPage  from './pages/PostPage';
 import ListPage  from './pages/ListPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="/upload" element={<UploadPage posts={posts} setPosts={setPosts} />} />
           <Route path="/post/:postId" element={<PostPage posts={posts} setPosts={setPosts} />} />
           <Route path="/list" element={<ListPage posts={posts} setPosts={setPosts} />} />
+          <Route path='/login' element={<LoginPage/>} />
         </Routes>
       </div>
       <Footer />
