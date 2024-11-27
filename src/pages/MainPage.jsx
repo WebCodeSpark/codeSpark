@@ -124,7 +124,7 @@ export default function MainPage() {
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         setTodos(
-          response.data.slice(0, 10).map((item) => ({
+          response.data.slice(0, 3).map((item) => ({
             id: item.id,
             title: item.title,
             check: item.completed,
