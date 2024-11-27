@@ -90,8 +90,6 @@ const StyledDate = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
-
-
 const MainWrapper = styled.div`
   display: flex;
   gap: 20px;
@@ -119,15 +117,25 @@ export default function MainPage() {
   const [todos, setTodos] = useState([]);
   const [calendarValue, setCalendarValue] = useState(new Date());
 
+  const [filteredTodos, setFilteredTodos] = useState([]);
+
+useEffect(() => {
+  // 선택된 날짜의 투두 필터링
+  const selectedDate = calendarValue.toISOString().split('T')[0];
+  setFilteredTodos(todos.filter((todo) => todo.date === selectedDate));
+}, [calendarValue, todos]);
+
+
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         setTodos(
-          response.data.slice(0, 10).map((item) => ({
+          response.data.slice(0, 3).map((item) => ({
             id: item.id,
             title: item.title,
             check: item.completed,
+            date: new Date().toISOString().split('T')[0], // 현재 날짜 추가
           }))
         );
       } catch (error) {
@@ -136,24 +144,39 @@ export default function MainPage() {
     })();
   }, []);
 
+
+  const groupedTodos = todos.reduce((acc, todo) => {
+    if (!acc[todo.date]) {
+      acc[todo.date] = [];
+    }
+    acc[todo.date].push(todo);
+    return acc;
+  }, {});
+  
+
   const onAdd = async (text) => {
     try {
-      await axios.post('https://jsonplaceholder.typicode.com/todos', {
+      const newTodo = {
         title: text,
         completed: false,
         userId: 1,
-      });
-
+        date: calendarValue.toISOString().split('T')[0], // 현재 선택한 날짜
+      };
+  
+      await axios.post('https://jsonplaceholder.typicode.com/todos', newTodo);
+  
       const id = Math.random().toString(36).substr(2, 9); // 로컬 고유 ID 생성
       setTodos((prevTodos) => [
         ...prevTodos,
-        { id, title: text, check: false },
+        { id, title: text, check: false, date: newTodo.date },
       ]);
     } catch (error) {
       console.error('할 일을 추가하는 중 오류 발생:', error.message);
       alert('할 일을 추가하는 데 실패했습니다.');
     }
   };
+  
+  
 
   const onDelete = async (id) => {
     try {
@@ -163,7 +186,11 @@ export default function MainPage() {
     } catch (error) {
       console.warn('서버 삭제 실패. 로컬 상태에서만 삭제합니다.');
     }
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) => {
+      const updatedTodos = prevTodos.filter((todo) => todo.id !== id);
+      setFilteredTodos(updatedTodos.filter((todo) => todo.date === calendarValue.toISOString().split('T')[0]));
+      return updatedTodos;
+    });
   };
 
   const onUpdate = async (id, check) => {
@@ -185,18 +212,39 @@ export default function MainPage() {
     <MainWrapper>
       {/* 캘린더 영역 */}
       <LeftSection>
-        <h1 style={{ color: '#333', textAlign: 'center' }}>캘린더</h1>
-        <StyledCalendarWrapper>
-          <Calendar onChange={setCalendarValue} value={calendarValue} />
-          <StyledDate onClick={() => setCalendarValue(new Date())}>today</StyledDate>
-        </StyledCalendarWrapper>
-      </LeftSection>
+    <h1 style={{ color: '#333', textAlign: 'center' }}>캘린더</h1>
+    <StyledCalendarWrapper>
+      <Calendar
+        onChange={setCalendarValue}
+        value={calendarValue}
+        tileContent={({ date, view }) => {
+          const dateString = date.toISOString().split('T')[0];
+          if (groupedTodos[dateString] && view === 'month') {
+            return (
+              <div
+                style={{
+                  height: '10px',
+                  width: '10px',
+                  backgroundColor: '#ffdd57',
+                  borderRadius: '50%',
+                  marginTop: '4px',
+                }}
+              ></div>
+            );
+          }
+          return null;
+        }}
+      />
+      <StyledDate onClick={() => setCalendarValue(new Date())}>today</StyledDate>
+    </StyledCalendarWrapper>
+  </LeftSection>
 
       {/* 투두리스트 영역 */}
       <RightSection>
         <h1 style={{ color: '#333', textAlign: 'center' }}>투두리스트</h1>
         <TodoInput onAdd={onAdd} />
-        <TodoList todos={todos} onDelete={onDelete} onUpdate={onUpdate} />
+        <TodoList todos={filteredTodos} onDelete={onDelete} onUpdate={onUpdate} />
+
       </RightSection>
     </MainWrapper>
   );
@@ -236,12 +284,17 @@ function TodoInput({ onAdd }) {
 function TodoList({ todos, onDelete, onUpdate }) {
   return (
     <div style={{ marginTop: '10px', width: '100%' }}>
-      {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} onDelete={onDelete} onUpdate={onUpdate} />
-      ))}
+      {todos.length === 0 ? (
+        <p style={{ textAlign: 'center', color: '#aaa' }}>선택한 날짜에 투두가 없습니다.</p>
+      ) : (
+        todos.map((todo) => (
+          <TodoItem key={todo.id} todo={todo} onDelete={onDelete} onUpdate={onUpdate} />
+        ))
+      )}
     </div>
   );
 }
+
 
 function TodoItem({ todo, onDelete, onUpdate }) {
   return (
