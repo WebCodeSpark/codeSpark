@@ -7,7 +7,6 @@ export default function ListPage({ posts, setPosts }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 처음에 게시글 데이터를 가져오는 로직
     (async () => {
       if (!posts || posts.length === 0) {
         const response = await fetch('https://jsonplaceholder.typicode.com/posts');
@@ -17,7 +16,7 @@ export default function ListPage({ posts, setPosts }) {
     })();
   }, [posts, setPosts]);
 
-  // 검색 기능
+  // 검색
   const handleSearch = () => {
     const keyword = searchKeyword.trim().toLowerCase();
     const results = posts.filter(
@@ -33,14 +32,6 @@ export default function ListPage({ posts, setPosts }) {
     setFilteredPosts(posts);
   }, [posts]);
 
-  if (!posts) {
-    return (
-      <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', textAlign: 'center' }}>
-        로딩 중입니다...
-      </div>
-    );
-  }
-
   return (
     <div style={{ padding: '20px'}}>
         <input
@@ -48,65 +39,35 @@ export default function ListPage({ posts, setPosts }) {
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
           placeholder="검색어를 입력하세요"
-          style={{
-            padding: '10px',
-            width: '200px',
-            marginRight: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-          }}
-        />
-        <button
-          onClick={handleSearch}
-          style={{
-            padding: '10px 20px',
-            border: 'none',
-            backgroundColor: '#3498db',
-            color: 'white',
-            margin:'3px',
-            cursor: 'pointer',
-          }}
-        >
-          검색
-        </button>
-
-      <button
-        onClick={() => navigate('/upload')}
-        style={{
-          padding: '10px 20px',
-          border: 'none',
-          backgroundColor: '#2ecc71',
-          color: 'white',
-          cursor: 'pointer',
-          marginBottom: '20px',
-        }}
-      >
-        새 글 작성
-      </button>
-
+          style={{ padding: '10px',width: '200px', marginRight: '5px', }} />
+        
+      <button onClick={handleSearch} style={{ padding: '9px',  marginRight:'20px',cursor: 'pointer', }} >검색 </button>
+      <button onClick={() => navigate('/upload')}  style={{padding: '9px',cursor: 'pointer', }}>새 글 작성</button>
 
       {filteredPosts.length === 0 ? (
-        <p style={{ textAlign: 'center', color: '#777' }}>검색된 게시글이 없습니다.</p>
+        <p style={{ textAlign: 'center'}}>검색된 게시글이 없습니다.</p>
       ) : (
         filteredPosts.map((post) => (
           <div key={post.id} style={{ marginBottom: '20px' }}>
-
             <h2
               onClick={() => navigate(`/post/${post.id}`)}
-              style={{
-                cursor: 'pointer',
-              }}
-            >
+              style={{ cursor: 'pointer',}}>
               {post.title}
             </h2>
-            <hr/>
+
             {post.hashTags && post.hashTags.length > 0 && (
-              <div>
-                <span>
-                  # {post.hashTags.join(' , # ')}
+                <span
+                style={{
+                  display: 'inline-block',
+                  backgroundColor: '#f0f0f0',
+                  padding: '5px 10px',
+                  margin: '5px',
+                  fontSize: '14px',
+                }}>
+                  # {post.hashTags.join(' ,  # ')}
                 </span>
-              </div>
             )}
+            <hr/>
           </div>
         ))
       )}

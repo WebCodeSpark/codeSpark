@@ -1,38 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-// 공통 스타일 객체
-const commonStyle = {
-  input: {
-    width: '50%',
-    padding: '10px',
-    marginBottom: '10px',
-  },
-  textarea: {
-    width: '50%',
-    padding: '10px',
-    marginBottom: '10px',
-  },
-  button: {
-    padding: '10px',
-    margin:'5px',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  },
-  hashtag: {
-    display: 'inline-block',
-    backgroundColor: '#f0f0f0',
-    padding: '5px 10px',
-    margin: '5px',
-  },
-  hashtagDelete: {
-    marginLeft: '5px',
-    color: '#999',
-    cursor: 'pointer',
-  }
-};
-
 function Update({ title, body, hashTags, onUpdate }) {
   const [newTitle, setNewTitle] = useState(title);
   const [newBody, setNewBody] = useState(body);
@@ -45,11 +13,11 @@ function Update({ title, body, hashTags, onUpdate }) {
 
   const addHashTag = (e) => {
     if (e.key === 'Enter' && newInputHashTag.trim()) {
-      e.preventDefault(); // 폼 제출 방지
-      e.stopPropagation(); // 이벤트 전파 중단
+      e.preventDefault();
+      e.stopPropagation();
       if (newHashTags.length < 5 && !newHashTags.includes(newInputHashTag.trim())) {
         setNewHashTags([...newHashTags, newInputHashTag.trim()]);
-        setNewInputHashTag(''); // 입력창 초기화
+        setNewInputHashTag('');
       }
     }
   };
@@ -68,63 +36,59 @@ function Update({ title, body, hashTags, onUpdate }) {
     <div>
       <form
         onSubmit={(event) => {
-          event.preventDefault(); // 기본 폼 제출 방지
+          event.preventDefault();
           onUpdate(newTitle, newBody, newHashTags);
         }}
       >
-        <p>제목</p>
+
         <input
           type="text"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
-          style={commonStyle.input}
+          style={{ padding: '10px', marginBottom: '10px', width: '50%' }}
         />
-        <p>내용</p>
+
         <textarea
           value={newBody}
           onChange={(e) => setNewBody(e.target.value)}
           rows="5"
-          style={commonStyle.textarea}
+          style={{ padding: '10px', marginBottom: '10px', width: '50%' }}
         />
+
         <input
           value={newInputHashTag}
           onChange={changeHashTagInput}
-          onKeyDown={addHashTag} // Enter 키로 해시태그 추가
-          onKeyUp={keyDownHandler} // 빈 공백 방지
+          onKeyDown={addHashTag}
+          onKeyUp={keyDownHandler}
           placeholder="#해시태그를 등록해보세요. (최대 5개)"
-          style={commonStyle.input}
+          style={{ padding: '10px', marginBottom: '10px', width: '50%' }}
         />
-
-        <div style={{ marginBottom: '10px' }}>
+        <br/> 
+        
           {newHashTags.map((tag, index) => (
-            <span key={index} style={commonStyle.hashtag}>
+            <span key={index} style={{ display: 'inline-block', backgroundColor: '#f0f0f0', padding: '5px 10px', margin: '5px' }}>
               {tag}{' '}
               <span
                 onClick={() => removeHashTag(tag)}
-                style={commonStyle.hashtagDelete}
+                style={{ marginLeft: '5px', color: '#999', cursor: 'pointer' }}
               >
                 &times;
               </span>
             </span>
           ))}
-        </div>
+
+        <br/> 
+       
         <button
           type="submit"
-          style={{
-            ...commonStyle.button,
-            backgroundColor: '#4CAF50',
-            color: 'white',
-          }}
-        >
-          수정 완료
-        </button>
+          style={{ padding: '10px', margin: '5px', cursor: 'pointer', }}> 수정 완료 </button>
       </form>
     </div>
   );
 }
 
 export default function PostPage({ posts, setPosts }) {
-  const { postId } = useParams(); // URL의 :postId를 가져옴
+  const { postId } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -135,17 +99,10 @@ export default function PostPage({ posts, setPosts }) {
 
   const post = posts.find((p) => p.id === parseInt(postId));
 
-  if (!post) {
-    return (
-      <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-        글을 찾을 수 없습니다.
-      </div>
-    );
-  }
-
+  
   const onDelete = () => {
     setPosts(posts.filter((p) => p.id !== post.id));
-    navigate('/'); // 삭제 후 메인 페이지로 이동
+    navigate('/list');
   };
 
   const onUpdate = (title, body, hashTags) => {
@@ -161,10 +118,9 @@ export default function PostPage({ posts, setPosts }) {
           : p
       )
     );
-    setIsEditing(false); // 수정 완료 후 수정 모드 종료
+    setIsEditing(false);
   };
 
-  // 댓글 추가
   const onAddComment = (comment) => {
     if (comment.trim() === '') return;
     const postComments = comments[post.id] || [];
@@ -179,7 +135,6 @@ export default function PostPage({ posts, setPosts }) {
     setCommentInput('');
   };
 
-  // 댓글 삭제
   const onDeleteComment = (commentId) => {
     const updatedComments = comments[post.id].filter(
       (comment) => comment.id !== commentId
@@ -190,7 +145,6 @@ export default function PostPage({ posts, setPosts }) {
     });
   };
 
-  // 댓글 수정
   const onEditComment = (commentId, text) => {
     setEditingComment({ id: commentId, text });
   };
@@ -201,6 +155,7 @@ export default function PostPage({ posts, setPosts }) {
         ? { ...comment, text: editingComment.text }
         : comment
     );
+
     setComments({
       ...comments,
       [post.id]: updatedComments,
@@ -209,24 +164,23 @@ export default function PostPage({ posts, setPosts }) {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '20px' }}>
       {isEditing ? (
         <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
       ) : (
         <>
           <h1>{post.title}</h1>
           <p>{post.body}</p>
-
-          {/* 해시태그 표시 */}
-          <div style={{ marginTop: '10px' }}>
-            <h4>해시태그</h4>
             {post.hashTags && post.hashTags.length > 0 ? (
               <div>
                 {post.hashTags.map((tag, index) => (
                   <span
                     key={index}
                     style={{
-                      ...commonStyle.hashtag,
+                      display: 'inline-block',
+                      backgroundColor: '#f0f0f0',
+                      padding: '5px 10px',
+                      margin: '5px',
                       fontSize: '14px',
                     }}
                   >
@@ -237,48 +191,15 @@ export default function PostPage({ posts, setPosts }) {
             ) : (
               <p>해시태그가 없습니다.</p>
             )}
-          </div>
 
-          <div style={{ marginTop: '20px' }}>
-            <button
-              onClick={() => setIsEditing(true)}
-              style={{
-                ...commonStyle.button,
-                backgroundColor: '#3498db',
-                color: 'white',
-              }}
-            >
-              수정
-            </button>
-            <button
-              onClick={onDelete}
-              style={{
-                ...commonStyle.button,
-                backgroundColor: '#e74c3c',
-                color: 'white',
-              }}
-            >
-              삭제
-            </button>
             <br />
-            <br />
-            <button
-              onClick={() => navigate('/list')}
-              style={{
-                ...commonStyle.button,
-                backgroundColor: '#2980b9',
-                color: 'white',
-              }}
-            >
-              목록
-            </button>
-          </div>
+            <button onClick={() => setIsEditing(true)}>수정</button>
+            <button onClick={onDelete}>삭제</button>
+            <br /><hr/><br />
+            <button onClick={() => navigate('/list')}> 목록 </button>
         </>
       )}
 
-      {/* 댓글 섹션 */}
-      <div style={{ marginTop: '30px' }}>
-        <h3>댓글</h3>
         {comments[post.id] && comments[post.id].length > 0 ? (
           <ul>
             {comments[post.id].map((comment) => (
@@ -291,42 +212,15 @@ export default function PostPage({ posts, setPosts }) {
                       onChange={(e) =>
                         setEditingComment({ ...editingComment, text: e.target.value })
                       }
-                      style={commonStyle.input}
+                      style={{ padding: '10px', marginBottom: '10px', width: '50%' }}
                     />
-                    <button
-                      onClick={onSubmitEditComment}
-                      style={{
-                        ...commonStyle.button,
-                        backgroundColor: '#f39c12',
-                        color: 'white',
-                      }}
-                    >
-                      확인
-                    </button>
+                    <button onClick={onSubmitEditComment}>확인</button>
                   </div>
                 ) : (
                   <>
                     {comment.text}
-                    <button
-                      onClick={() => onDeleteComment(comment.id)}
-                      style={{
-                        ...commonStyle.button,
-                        backgroundColor: '#e74c3c',
-                        color: 'white',
-                      }}
-                    >
-                      삭제
-                    </button>
-                    <button
-                      onClick={() => onEditComment(comment.id, comment.text)}
-                      style={{
-                        ...commonStyle.button,
-                        backgroundColor: '#3498db',
-                        color: 'white',
-                      }}
-                    >
-                      수정
-                    </button>
+                    <button onClick={() => onEditComment(comment.id, comment.text)}>수정</button>
+                    <button onClick={() => onDeleteComment(comment.id)}>삭제</button>
                   </>
                 )}
               </li>
@@ -335,26 +229,17 @@ export default function PostPage({ posts, setPosts }) {
         ) : (
           <p>댓글이 없습니다.</p>
         )}
-        <div style={{ marginTop: '10px' }}>
           <input
             type="text"
             value={commentInput}
             onChange={(e) => setCommentInput(e.target.value)}
             placeholder="댓글을 입력하세요"
-            style={commonStyle.input}
+            style={{ padding: '10px', marginBottom: '10px', width: '50%' }}
           />
           <button
             onClick={() => onAddComment(commentInput)}
-            style={{
-              ...commonStyle.button,
-              backgroundColor: '#2ecc71',
-              color: 'white',
-            }}
-          >
-            댓글 작성
+            style={{ padding: '10px',margin: '5px',cursor: 'pointer', }} >댓글 작성
           </button>
-        </div>
       </div>
-    </div>
   );
 }
