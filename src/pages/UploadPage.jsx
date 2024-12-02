@@ -11,9 +11,8 @@ export default function UploadPage({ posts, setPosts }) {
   const [inputHashTag, setInputHashTag] = useState('');
   const [hashTags, setHashTags] = useState([]);
 
-  const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
-
-  // Fetch posts on mount
+  const navigate = useNavigate(); 
+ 
   useEffect(() => {
     (async () => {
       if (posts.length === 0) {
@@ -42,7 +41,7 @@ export default function UploadPage({ posts, setPosts }) {
 
   const changeHashTagInput = (e) => setInputHashTag(e.target.value);
 
-  // Add hashTag on Enter or Space key
+  // 엔터 해시테그 입력
   const addHashTag = (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && inputHashTag.trim()) {
       e.preventDefault();
@@ -53,20 +52,19 @@ export default function UploadPage({ posts, setPosts }) {
     }
   };
 
-  // Prevent space from adding empty hashtags
   const keyDownHandler = (e) => {
     if (e.key === ' ' && !inputHashTag.trim()) {
       e.preventDefault();
     }
   };
 
-  // Remove a hashTag
+  // 삭제
   const removeHashTag = (tagToRemove) => {
     setHashTags(hashTags.filter((tag) => tag !== tagToRemove));
   };
 
   return (
-    <div className="upload-page">
+    <div>
       <input
         type="text"
         onChange={(e) => setTitle(e.target.value)}
@@ -113,16 +111,10 @@ export default function UploadPage({ posts, setPosts }) {
 
       <style>
         {`
-          .upload-page {
-            padding: 20px;
-            font-family: Arial, sans-serif;
-          }
-          .input-field, .submit-button {
-            width: 100%;
+          .input-field {
+            width: 50%;
             padding: 10px;
             margin-bottom: 10px;
-          }
-          .input-field {
             border: 1px solid #ccc;
           }
           .hash-tags {
@@ -130,25 +122,19 @@ export default function UploadPage({ posts, setPosts }) {
           }
           .hash-tag {
             display: inline-block;
-            background: #f0f0f0;
-            color: #333;
             padding: 5px 10px;
             margin: 5px;
+            background: #f0f0f0;
             font-size: 14px;
           }
           .remove-tag {
             margin-left: 5px;
-            color: #999;
             cursor: pointer;
+            color: #999;
           }
           .submit-button {
-            background: #4caf50;
-            color: #fff;
-            border: none;
+            padding: 10px;
             cursor: pointer;
-          }
-          .submit-button:hover {
-            background: #45a049;
           }
         `}
       </style>
