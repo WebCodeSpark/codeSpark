@@ -1,16 +1,54 @@
 {
     "userlist": [
-        {
-            "id": 1,
-            "email": "user1@gmail.com",
-            "password": "0000",
-            "username": "User1"
-        },
-        {
-            "id": 2,
-            "email": "user2@gmail.com",
-            "password": "0000",
-            "username": "User2"
-        }
+      {
+        "id": 1,
+        "email": "user1@gmail.com",
+        "password": "0000",
+        "username": "User1"
+      },
+      {
+        "id": 2,
+        "email": "user2@gmail.com",
+        "password": "0000",
+        "username": "User2"
+      }
+    ],
+    "postList": [
+      {
+        "id": 1,
+        "title": "첫 번째 게시글 제목",
+        "body": "이것은 첫 번째 게시글의 내용입니다.",
+        "hashTags": ["리액트", "#자바스크립트"],
+        "userId": 1
+      },
+      {
+        "id": 2,
+        "title": "두 번째 게시글 제목",
+        "body": "이것은 두 번째 게시글의 내용입니다.",
+        "hashTags": ["프론트엔드", "웹개발"],
+        "userId": 2
+      },
+      {
+        "id": 3,
+        "title": "세 번째 게시글 제목",
+        "body": "이것은 세 번째 게시글의 내용입니다.",
+        "hashTags": ["HTML", "CSS"],
+        "userId": 1
+      },
+      {
+        "id": 4,
+        "title": "네 번째 게시글 제목",
+        "body": "이것은 네 번째 게시글의 내용입니다.",
+        "hashTags": ["백엔드", "NodeJS"],
+        "userId": 2
+      },
+      {
+        "id": 5,
+        "title": "다섯 번째 게시글 제목",
+        "body": "이것은 다섯 번째 게시글의 내용입니다.",
+        "hashTags": ["API", "Express"],
+        "userId": 1
+      }
     ]
-}
+  }
+  
