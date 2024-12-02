@@ -10,15 +10,13 @@ import UploadPage from './pages/UploadPage';
 import PostPage  from './pages/PostPage';
 import ListPage  from './pages/ListPage';
 import LoginPage from './pages/LoginPage';
-
 function App() {
 
   const [posts, setPosts] = useState([]);
 
   return (
     <Router>
-      <Header />
-      
+      <Header />   
       <div style={{ padding: '20px' }}>
         <Routes>
           <Route path="/" element={<Navigate to="/main" replace />} />
