@@ -83,8 +83,6 @@ export default function LoginPage() {
             backgroundColor: '#333',
             color: '#fff',
             fontWeight: 'bold',
-            border: 'none',
-            borderRadius: '4px',
             cursor: 'pointer',
           }}
         >

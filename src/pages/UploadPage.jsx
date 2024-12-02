@@ -8,13 +8,11 @@ const url = 'https://jsonplaceholder.typicode.com/posts';
 export default function UploadPage({ posts, setPosts }) {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-
   const [inputHashTag, setInputHashTag] = useState('');
   const [hashTags, setHashTags] = useState([]);
 
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
 
-  
   // Fetch posts on mount
   useEffect(() => {
     (async () => {
@@ -42,11 +40,7 @@ export default function UploadPage({ posts, setPosts }) {
     navigate(`/post/${newId}`); // 작성 후 상세 페이지로 이동
   };
 
-
-
-  const changeHashTagInput = (e) => {
-    setInputHashTag(e.target.value);
-  };
+  const changeHashTagInput = (e) => setInputHashTag(e.target.value);
 
   // Add hashTag on Enter or Space key
   const addHashTag = (e) => {
@@ -71,106 +65,95 @@ export default function UploadPage({ posts, setPosts }) {
     setHashTags(hashTags.filter((tag) => tag !== tagToRemove));
   };
 
-
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div className="upload-page">
+      <input
+        type="text"
+        onChange={(e) => setTitle(e.target.value)}
+        value={title}
+        placeholder="제목을 입력하세요"
+        className="input-field"
+      />
+      <textarea
+        onChange={(e) => setBody(e.target.value)}
+        value={body}
+        placeholder="내용을 입력하세요"
+        rows="5"
+        className="input-field"
+      ></textarea>
 
-      {/* Add post */}
-      <div style={{ marginBottom: '20px' }}>
-        <input
-          type="text"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-          placeholder="제목을 입력하세요"
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginBottom: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-          }}
-        />
-        <textarea
-          onChange={(e) => setBody(e.target.value)}
-          value={body}
-          placeholder="내용을 입력하세요"
-          rows="5"
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginBottom: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-          }}
-        ></textarea>
-        
+      <input
+        value={inputHashTag}
+        onChange={changeHashTagInput}
+        onKeyUp={addHashTag}
+        onKeyDown={keyDownHandler}
+        placeholder="#해시태그를 등록해보세요. (최대 5개)"
+        className="input-field"
+      />
 
-
-        {/* HashTag input */}
-        <input
-          value={inputHashTag}
-          onChange={changeHashTagInput}
-          onKeyUp={addHashTag}
-          onKeyDown={keyDownHandler}
-          placeholder="#해시태그를 등록해보세요. (최대 5개)"
-          style={{
-            width: '100%',
-            padding: '10px',
-            marginBottom: '10px',
-            borderRadius: '5px',
-            border: '1px solid #ccc',
-          }}
-        />
-
-        {/* Display added hashTags */}
-        <div style={{ marginBottom: '10px' }}>
-          {hashTags.map((tag, index) => (
-            <span
-              key={index}
-              style={{
-                display: 'inline-block',
-                backgroundColor: '#f0f0f0',
-                color: '#333',
-                padding: '5px 10px',
-                margin: '5px',
-                borderRadius: '15px',
-                fontSize: '14px',
-              }}
-            >
-              {tag}{' '}
-              <span
-                onClick={() => removeHashTag(tag)}
-                style={{
-                  marginLeft: '5px',
-                  color: '#999',
-                  cursor: 'pointer',
-                }}
-              >
-                &times;
-              </span>
+      <div className="hash-tags">
+        {hashTags.map((tag, index) => (
+          <span className="hash-tag" key={index}>
+            {tag}{' '}
+            <span className="remove-tag" onClick={() => removeHashTag(tag)}>
+              &times;
             </span>
-          ))}
-        </div>
-
-        <button
-          onClick={() => {
-            if (title && body) {
-              onAdd(title, body);
-            }
-          }}
-          style={{
-            width: '100%',
-            padding: '10px',
-            backgroundColor: '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-          }}
-        >
-          글 작성
-        </button>
+          </span>
+        ))}
       </div>
+
+      <button
+        onClick={() => {
+          if (title && body) onAdd(title, body);
+        }}
+        className="submit-button"
+      >
+        글 작성
+      </button>
+
+      <style>
+        {`
+          .upload-page {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+          }
+          .input-field, .submit-button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+          }
+          .input-field {
+            border: 1px solid #ccc;
+          }
+          .hash-tags {
+            margin-bottom: 10px;
+          }
+          .hash-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #333;
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 15px;
+            font-size: 14px;
+          }
+          .remove-tag {
+            margin-left: 5px;
+            color: #999;
+            cursor: pointer;
+          }
+          .submit-button {
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+          }
+          .submit-button:hover {
+            background: #45a049;
+          }
+        `}
+      </style>
     </div>
   );
 }
