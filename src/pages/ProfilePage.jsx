@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from'react';
 
 export default function ProfilePage() {
   const [userInfo, setUserInfo] = useState(null); // 사용자 정보 저장
