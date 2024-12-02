@@ -2,11 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-<<<<<<< HEAD
-// The URL for fetching posts from JSONPlaceholder API
-=======
-// JSON서버에서 가져옵니다.
->>>>>>> abb427a647ef347f096bcd7d247d20e63af05e4e
 const url = 'http://localhost:3000/post';
 
 export default function UploadPage({ posts, setPosts }) {

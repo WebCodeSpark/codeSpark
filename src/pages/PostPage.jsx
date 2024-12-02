@@ -117,11 +117,7 @@ export default function PostPage({ posts, setPosts }) {
 
   const onDelete = () => {
     setPosts(posts.filter((p) => p.id !== post.id));
-<<<<<<< HEAD
-    navigate('/'); // 삭제 후 메인 페이지로 이동
-=======
     navigate('/list'); // 삭제 후 메인 페이지로 이동
->>>>>>> abb427a647ef347f096bcd7d247d20e63af05e4e
   };
 
   const onUpdate = (title, body, hashTags) => {

@@ -51,7 +51,7 @@ export default function ListPage({ posts, setPosts }) {
         filteredPosts.map((post) => (
           <div key={post.id} style={{ marginBottom: '20px' }}>
             <h2
-              onClick={() => navigate(`/postList/${post.id}`)}
+              onClick={() => navigate(`/post/${post.id}`)}
               style={{ cursor: 'pointer',}}>
               {post.title}
             </h2>
