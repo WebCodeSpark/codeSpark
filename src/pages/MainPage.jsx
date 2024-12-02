@@ -9,7 +9,6 @@ export default function MainPage() {
   const [filteredTodos, setFilteredTodos] = useState([]);
 
   useEffect(() => {
-    // 선택된 날짜의 투두 필터링
     const selectedDate = calendarValue.toISOString().split('T')[0];
     setFilteredTodos(todos.filter((todo) => todo.date === selectedDate));
   }, [calendarValue, todos]);
@@ -19,7 +18,7 @@ export default function MainPage() {
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
         setTodos(
-          response.data.slice(0, 3).map((item) => ({
+          response.data.slice(0, 0).map((item) => ({
             id: item.id,
             title: item.title,
             check: item.completed,
