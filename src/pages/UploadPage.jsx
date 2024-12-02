@@ -121,7 +121,6 @@ export default function UploadPage({ posts, setPosts }) {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border-radius: 5px;
           }
           .input-field {
             border: 1px solid #ccc;
@@ -135,7 +134,6 @@ export default function UploadPage({ posts, setPosts }) {
             color: #333;
             padding: 5px 10px;
             margin: 5px;
-            border-radius: 15px;
             font-size: 14px;
           }
           .remove-tag {

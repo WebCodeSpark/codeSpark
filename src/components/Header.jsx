@@ -13,24 +13,14 @@ export default function Header() {
 
   return (
     <header>
-      <h1 className="centered-title">CodeSpark</h1>
+       <h1 className="centered-title">
+        <Link to="/list" style={{ textDecoration: 'none', color: 'inherit' }}>
+          CodeSpark
+        </Link>
+      </h1>
+      <br/>
       <nav>
         <ul className="horizontal-nav">
-          <li>
-            <Link to="/search">검색</Link>
-          </li>
-          <li>
-            <Link to="/upload">새 글 작성</Link>
-          </li>
-          {userEmail ? (
-            <li>
-              <span>{userEmail}님</span>
-            </li>
-          ) : (
-            <li>
-              <Link to="/login">로그인</Link>
-            </li>
-          )}
           {userEmail && (
             <li>
               <button onClick={handleLogout}>로그아웃</button>
@@ -45,34 +35,41 @@ export default function Header() {
           <li>
             <Link to="/profile">프로필</Link>
           </li>
+          {userEmail ? (
+            <li>
+              <span>{userEmail}님</span>
+            </li>
+          ) : (
+            <li>
+              <Link to="/login">로그인</Link>
+            </li>
+          )}
         </ul>
       </nav>
       <style>
         {`
-          /* 중앙 정렬된 제목 */
+         
           .centered-title {
-            text-align: center; /* 텍스트 중앙 정렬 */
-            margin: 0; /* 불필요한 기본 마진 제거 */
-            font-size: 24px; /* 적절한 제목 크기 */
-            padding: 10px 0; /* 제목 상하 여백 */
+            text-align: center; 
+            margin: 0;
+            padding: 10px 0; 
           }
 
-          /* 가로로 나열되는 리스트 */
-          .horizontal-nav {
+         .horizontal-nav {
             list-style: none;
-            display: flex; /* 플렉스 박스로 설정 */
-            justify-content: center; /* 가운데 정렬 */
+            display: flex; 
+            justify-content: center; 
             padding: 0;
             margin: 0;
-            gap: 20px; /* 항목 간 간격 */
-            flex-wrap: nowrap; /* 한 줄에 모든 항목이 배치되도록 설정 */
+            gap: 20px; 
+            flex-wrap: nowrap; 
           }
 
           .horizontal-nav li {
-            margin: 0; /* 불필요한 마진 제거 */
+            margin: 0; 
           }
 
-          /* 링크 및 버튼 스타일링 */
+
           .horizontal-nav a,
           .horizontal-nav button {
             text-decoration: none;
@@ -81,12 +78,6 @@ export default function Header() {
             border: none;
             background: none;
             cursor: pointer;
-          }
-
-          .horizontal-nav a:hover,
-          .horizontal-nav button:hover {
-            color: #007bff; /* 강조 색상 */
-            text-decoration: underline;
           }
         `}
       </style>
