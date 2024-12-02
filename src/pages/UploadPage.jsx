@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// The URL for fetching posts from JSONPlaceholder API
-const url = 'http://localhost:3000/postList';
+// JSON서버에서 가져옵니다.
+const url = 'http://localhost:3000/post';
 
 export default function UploadPage({ posts, setPosts }) {
   const [title, setTitle] = useState('');
@@ -17,12 +17,11 @@ export default function UploadPage({ posts, setPosts }) {
     (async () => {
       if (posts.length === 0) {
         const response = await axios.get(url);
-        setPosts(response.data); // 초기 posts 설정
+        setPosts(response.data);
       }
     })();
   }, [posts, setPosts]);
 
-  // Add new post
   const onAdd = (title, body) => {
     const newId = posts.length > 0 ? posts[posts.length - 1].id + 1 : 101;
     const newPost = {
@@ -36,18 +35,18 @@ export default function UploadPage({ posts, setPosts }) {
     setTitle('');
     setBody('');
     setHashTags([]);
-    navigate(`/post/${newId}`); // 작성 후 상세 페이지로 이동
+    navigate(`/post/${newId}`); 
   };
 
   const changeHashTagInput = (e) => setInputHashTag(e.target.value);
 
-  // 엔터 해시테그 입력
+  // 엔터 해시태그 입력
   const addHashTag = (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && inputHashTag.trim()) {
       e.preventDefault();
       if (hashTags.length < 5 && !hashTags.includes(inputHashTag.trim())) {
         setHashTags([...hashTags, inputHashTag.trim()]);
-        setInputHashTag(''); // 입력창 초기화
+        setInputHashTag(''); 
       }
     }
   };

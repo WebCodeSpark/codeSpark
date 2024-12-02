@@ -9,9 +9,10 @@ export default function ListPage({ posts, setPosts }) {
   useEffect(() => {
     (async () => {
       if (!posts || posts.length === 0) {
-        const response = await fetch('http://localhost:3000/postList');
+        const response = await fetch('http://localhost:3000/post');
         const data = await response.json();
-        setPosts(data.slice(0, 3).reverse()); // 3개만
+        setPosts(data.reverse());
+        //setPosts(data.slice(0, 3).reverse()); // 3개만
       }
     })();
   }, [posts, setPosts]);
