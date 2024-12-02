@@ -10,13 +10,23 @@ import UploadPage from './pages/UploadPage';
 import PostPage  from './pages/PostPage';
 import ListPage  from './pages/ListPage';
 import LoginPage from './pages/LoginPage';
+
 function App() {
 
   const [posts, setPosts] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const handleLogout = () => {
+    setLoggedInUser(null); 
+  };
 
   return (
     <Router>
-      <Header />   
+       <Header 
+        userName={loggedInUser?.username} 
+        onLogout={handleLogout} 
+      />
+      
       <div style={{ padding: '20px' }}>
         <Routes>
           <Route path="/" element={<Navigate to="/main" replace />} />
@@ -27,7 +37,10 @@ function App() {
           <Route path="/upload" element={<UploadPage posts={posts} setPosts={setPosts} />} />
           <Route path="/post/:postId" element={<PostPage posts={posts} setPosts={setPosts} />} />
           <Route path="/list" element={<ListPage posts={posts} setPosts={setPosts} />} />
-          <Route path='/login' element={<LoginPage/>} />
+          <Route 
+            path="/login" 
+            element={<LoginPage setLoggedInUser={setLoggedInUser} />} 
+          />
         </Routes>
       </div>
       <Footer />
