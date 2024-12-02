@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // The URL for fetching posts from JSONPlaceholder API
-const url = 'https://jsonplaceholder.typicode.com/posts';
+const url = 'http://localhost:3000/post';
 
 export default function UploadPage({ posts, setPosts }) {
   const [title, setTitle] = useState('');

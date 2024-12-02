@@ -9,7 +9,7 @@ export default function ListPage({ posts, setPosts }) {
   useEffect(() => {
     (async () => {
       if (!posts || posts.length === 0) {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const response = await fetch('http://localhost:3000/post');
         const data = await response.json();
         setPosts(data.slice(0, 3).reverse()); // 3개만
       }
@@ -50,7 +50,7 @@ export default function ListPage({ posts, setPosts }) {
         filteredPosts.map((post) => (
           <div key={post.id} style={{ marginBottom: '20px' }}>
             <h2
-              onClick={() => navigate(`/post/${post.id}`)}
+              onClick={() => navigate(`/postList/${post.id}`)}
               style={{ cursor: 'pointer',}}>
               {post.title}
             </h2>
