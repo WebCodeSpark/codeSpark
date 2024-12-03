@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const commonStyle = {
@@ -103,18 +103,27 @@ export default function PostPage({ posts, setPosts }) {
   const { postId } = useParams(); // URL의 :postId를 가져옴
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [post, setPost] = useState(null);
 
-  // 댓글
-  const [comments, setComments] = useState({});
-  const [commentInput, setCommentInput] = useState('');
-  const [editingComment, setEditingComment] = useState(null);
-
-  const post = posts.find((p) => p.id === parseInt(postId));
+   // 댓글 관련 상태 추가
+   const [comments, setComments] = useState({}); // 댓글 목록 상태
+   const [commentInput, setCommentInput] = useState(''); // 댓글 입력 상태
+   const [editingComment, setEditingComment] = useState(null); // 댓글 수정 상태
+   
+   useEffect(() => {
+    const fetchPost = async () => {
+      const response = await fetch(`http://localhost:3000/post/${postId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setPost(data);
+      }
+    };
+    fetchPost();
+  }, [postId]);
 
   if (!post) {
-    return <div>글을 찾을 수 없습니다.</div>;
+    return <div>게시글을 불러오는 중입니다...</div>;
   }
-
   const onDelete = () => {
     setPosts(posts.filter((p) => p.id !== post.id));
     navigate('/list'); // 삭제 후 메인 페이지로 이동

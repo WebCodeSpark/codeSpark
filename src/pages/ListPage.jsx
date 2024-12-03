@@ -7,15 +7,18 @@ export default function ListPage({ posts, setPosts }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      if (!posts || posts.length === 0) {
-        const response = await fetch('http://localhost:3000/post');
-        const data = await response.json();
-        setPosts(data.reverse());
-        //setPosts(data.slice(0, 3).reverse()); // 3개만
-      }
-    })();
-  }, [posts, setPosts]);
+    const fetchPosts = async () => {
+      const response = await fetch('http://localhost:3000/post');
+      const data = await response.json();
+      setPosts(data.reverse());
+    };
+    fetchPosts();
+  }, [setPosts]);
+
+  useEffect(() => {
+    setFilteredPosts(posts);
+  }, [posts]);
+
 
   // 검색
   const handleSearch = () => {
