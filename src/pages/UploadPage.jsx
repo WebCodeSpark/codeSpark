@@ -22,15 +22,16 @@ export default function UploadPage({ posts, setPosts }) {
   }, [posts, setPosts]);
 
   const onAdd = (title, body) => {
-    const newId = posts.length > 0 ? posts[posts.length - 1].id + 1 : 101;
+    const newId = posts.length > 0 ? Math.max(...posts.map((post) => post.id)) + 1 : 1;
     const newPost = {
-      id: newId,
+      id: String(newId),
       title,
       body,
       hashTags,
       userId: 1,
     };
-    setPosts([newPost, ...posts]); // 새로운 글 추가
+    const response = axios.post('http://localhost:3000/post', newPost);
+    setPosts((prevPosts) => [response.data, ...prevPosts]);
     setTitle('');
     setBody('');
     setHashTags([]);
