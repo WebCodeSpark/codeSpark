@@ -11,7 +11,7 @@ export default function UploadPage({ posts, setPosts }) {
   const [inputHashTag, setInputHashTag] = useState('');
   const [hashTags, setHashTags] = useState([]);
 
-  const [text, setText] = useState('사과 먹는 호랑이');
+  const [text, setText] = useState('');
   const [result, setReult] = useState([]);
 
   const navigate = useNavigate(); 
