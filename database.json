@@ -46,14 +46,25 @@
       "body": "ㄻㄴㅁㄴㅇㅁㅇㄴqweqwe",
       "hashTags": [],
       "userId": 1
+    },
+    {
+      "id": "5",
+      "title": "ㄴㄹㅇ",
+      "body": "ㄴㅇㄹ",
+      "hashTags": [
+        "ㄴㅇㄹ"
+      ],
+      "userId": 1
+    },
+    {
+      "id": "6",
+      "title": "ㄴㅇㄹ",
+      "body": "ㄴㄹㅇ",
+      "hashTags": [
+        "ㄴㅇㄹ"
+      ],
+      "userId": 1
     }
   ],
-  "comments": [
-    {
-      "id": "874a",
-      "text": "qwewqe",
-      "userId": "2",
-      "postId": "4"
-    }
-  ]
+  "comments": []
 }

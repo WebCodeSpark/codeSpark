@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { chat, dalle } from './openai';
 
 const url = 'http://localhost:3000/post';
 
@@ -10,8 +11,31 @@ export default function UploadPage({ posts, setPosts }) {
   const [inputHashTag, setInputHashTag] = useState('');
   const [hashTags, setHashTags] = useState([]);
 
+  const [text, setText] = useState('사과 먹는 호랑이');
+  const [result, setReult] = useState([]);
+
   const navigate = useNavigate(); 
- 
+
+  const makeImage = () => {
+    const prompt = `다음문장을 영어로 번역해주세요${text}`;
+    chat(prompt, (result) => {
+      dalle(
+        result,
+        (images) => {
+          console.log(images);
+          setReult(images);
+        },
+        4
+      );
+    });
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setBody(value);
+    setText(value);
+  };
+  
   useEffect(() => {
     (async () => {
       if (posts.length === 0) {
@@ -71,13 +95,14 @@ export default function UploadPage({ posts, setPosts }) {
         placeholder="제목을 입력하세요"
         className="input-field"
       />
+
       <textarea
-        onChange={(e) => setBody(e.target.value)}
-        value={body}
+        onChange={handleChange} // 하나의 함수로 두 상태 업데이트
+        value={body} // body 상태를 value로 사용
         placeholder="내용을 입력하세요"
         rows="5"
         className="input-field"
-      ></textarea>
+      />
 
       <input
         value={inputHashTag}
@@ -99,6 +124,14 @@ export default function UploadPage({ posts, setPosts }) {
         ))}
       </div>
 
+      <br />
+      <button onClick={() => makeImage()}>이미지</button>
+      <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        {result.map((image) => (
+          <img src={image.url} style={{ width: 128, height: 128 }} />
+        ))}
+      </div>
+      
       <button
         onClick={() => {
           if (title && body) onAdd(title, body);
