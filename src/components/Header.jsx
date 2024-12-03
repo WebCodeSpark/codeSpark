@@ -1,98 +1,96 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // react-router-dom에서 Link 컴포넌트 불러오기
+import { Link } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ userName, onLogout }) {
   return (
-    <header style={headerStyle}>
-      <h1 style={titleStyle}>CodeSpark</h1>
-      <nav style={navStyle}>
-        <ul style={rightNavStyle}>
-          <li style={liStyle}>
-            <Link to="/search" style={buttonStyle}>검색</Link>
+    <header>
+      <h1 className="centered-title">
+        <Link to="/list" style={{ textDecoration: 'none', color: 'inherit' }}>
+          CodeSpark
+        </Link>
+      </h1>
+      <nav>
+        <ul className="horizontal-nav">
+          <li>
+            <Link to="/list">스파크</Link>
           </li>
-          <li style={liStyle}>
-            <Link to="/upload" style={buttonStyle}>새 글 작성</Link>
+          <li>
+            <Link to="/main">하루</Link>
           </li>
-        </ul>
-        <ul style={ulStyle}>
-          <li style={liStyle}>
-            <Link to="/list" style={linkStyle}>스파크</Link>
+          <li>
+            <Link to="/profile">프로필</Link>
           </li>
-          <li style={liStyle}>
-            <Link to="/my" style={linkStyle}>피드</Link>
-          </li>
-          <li style={liStyle}>
-            <Link to="/main" style={linkStyle}>하루</Link>
-          </li>
-          <li style={liStyle}>
-            <Link to="/profile" style={linkStyle}>프로필</Link>
-          </li>
+          {userName ? (
+            <>
+              <li>
+                <span aria-label="Logged in user">{userName}님</span>
+              </li>
+              <li>
+                <button 
+                  onClick={onLogout} 
+                  aria-label="Logout button"
+                  className="logout-button"
+                >
+                  로그아웃
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link to="/login" aria-label="Login link">로그인</Link>
+            </li>
+          )}
         </ul>
       </nav>
+      <style>
+        {`
+          .centered-title {
+            text-align: center; 
+            margin: 0;
+            padding: 10px 0; 
+            font-size: 24px;
+          }
+
+          .horizontal-nav {
+            list-style: none;
+            display: flex; 
+            justify-content: center; 
+            padding: 0;
+            margin: 0;
+            gap: 20px; 
+            flex-wrap: nowrap; 
+          }
+
+          .horizontal-nav li {
+            margin: 0; 
+          }
+
+          .horizontal-nav a,
+          .horizontal-nav button {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+          }
+
+          .logout-button {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+
+          .logout-button:hover {
+            background-color: #f0f0f0;
+          }
+        `}
+      </style>
     </header>
   );
 }
-
-// 스타일링
-const headerStyle = {
-  backgroundColor: '#333',
-  color: '#fff',
-  padding: '10px 0',
-  textAlign: 'center',
-  position: 'relative',
-};
-
-const titleStyle = {
-  fontSize: '32px',
-};
-
-const navStyle = {
-  marginTop: '10px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
-
-const rightNavStyle = {
-  position: 'absolute',
-  top: '10px',
-  right: '10px',
-  listStyleType: 'none',
-  display: 'flex',
-  gap: '20px',
-  padding: '0',
-};
-
-const ulStyle = {
-  listStyleType: 'none',
-  display: 'flex',
-  justifyContent: 'center',
-  padding: '0',
-};
-
-const liStyle = {
-  margin: '0 15px',
-};
-
-const linkStyle = {
-  color: '#fff',
-  textDecoration: 'none',
-  fontSize: '16px',
-};
-
-const buttonStyle = {
-  display: 'inline-block',
-  padding: '8px 16px', // padding 크기 줄여서 버튼 크기 감소
-  backgroundColor: '#fff', // 흰색 배경
-  color: '#333', // 검정색 글씨
-  textDecoration: 'none',
-  fontSize: '14px', // 글자 크기 줄임
-  borderRadius: '5px',
-  border: '1px solid #ccc',
-  transition: 'background-color 0.3s ease, color 0.3s ease',
-};
-
-const buttonHoverStyle = {
-  backgroundColor: '#333', // 검정 배경
-  color: '#fff', // 흰색 글씨
-};

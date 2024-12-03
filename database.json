@@ -1,0 +1,77 @@
+{
+  "userlist": [
+    {
+      "id": "1",
+      "email": "user1@gmail.com",
+      "password": "0000",
+      "username": "User1"
+    },
+    {
+      "id": "2",
+      "email": "user2@gmail.com",
+      "password": "0000",
+      "username": "User2"
+    }
+  ],
+  "post": [
+    {
+      "id": "1",
+      "title": "ㄱㄷㄴ",
+      "body": "ㄹㄴㅇㄴㄹㅇ",
+      "hashTags": [
+        "ㄹㄴㅇㄴㄹㅇ"
+      ],
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "title": "ㄴㅇㄹ",
+      "body": "ㄹㄴㅇㄴㅇㄹ",
+      "hashTags": [],
+      "userId": 1
+    },
+    {
+      "id": "3",
+      "title": "1",
+      "body": "ㅂsdfsdfsd",
+      "hashTags": [
+        "ㅁㄴㅇㅇ",
+        "111"
+      ],
+      "userId": 1
+    },
+    {
+      "id": "4",
+      "title": "ㄴㅇㄹㅁㄴㅇ",
+      "body": "ㄻㄴㅁㄴㅇㅁㅇㄴqweqwe",
+      "hashTags": [],
+      "userId": 1
+    }
+  ],
+  "comments": [
+    {
+
+      "id": "5",
+      "title": "ㄴㄹㄴㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+      "body": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+      "hashTags": [
+        "ㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ"
+      ],
+      "userId": 1
+    },
+    {
+      "id": "6",
+      "title": "제목",
+      "body": "내용",
+      "hashTags": [
+        "해ㅏㅇ"
+      ],
+      "userId": 1
+    },{
+      "id": "874a",
+      "text": "qwewqe",
+      "userId": "2",
+      "postId": "4"
+    }
+  ]
+}

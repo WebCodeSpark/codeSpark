@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from'react';
 
 export default function ProfilePage() {
   const [userInfo, setUserInfo] = useState(null); // 사용자 정보 저장
@@ -44,22 +44,7 @@ export default function ProfilePage() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-      {/* 프로필 섹션 */}
-      <div style={{ marginBottom: '20px', textAlign: 'center' }}>
-        <h2 style={{ marginBottom: '10px' }}>{userInfo.username}</h2>
-        <p>
-          <strong>팔로잉:</strong> {userInfo.following} &nbsp;
-          <strong>팔로워:</strong> {userInfo.followers}
-        </p>
-      </div>
-
-      <br/>
-      <hr/>
-      <br/>
-      
-      {/* 내가 작성한 글 섹션 */}
-      <div>
-        <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>내가 작성한 글</h3>
+        <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>{userInfo.username}님이  작성한 글</h3>
         {userInfo.posts.length > 0 ? (
           <div style={{ display: 'grid', gap: '15px' }}>
             {userInfo.posts.map((post, index) => (
@@ -68,7 +53,6 @@ export default function ProfilePage() {
                 style={{
                   padding: '15px',
                   borderRadius: '8px',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                   backgroundColor: '#f9f9f9',
                 }}
               >
@@ -80,6 +64,5 @@ export default function ProfilePage() {
           <p style={{ textAlign: 'center' }}>작성한 글이 없습니다.</p>
         )}
       </div>
-    </div>
   );
 }
