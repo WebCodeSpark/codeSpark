@@ -93,7 +93,7 @@ export default function MainPage() {
 
   return (
     <div style={{ display: 'flex', gap: '20px', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      {/* 캘린더 영역 */}
+      {/* 캘린더*/}
       <div style={{ flex: 1, maxWidth: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h1 style={{ color: '#333', textAlign: 'center' }}>캘린더</h1>
         <Calendar
@@ -129,7 +129,7 @@ export default function MainPage() {
         </button>
       </div>
 
-      {/* 투두리스트 영역 */}
+      {/* 투두리스트 */}
       <div style={{ flex: 1, maxWidth: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h1 style={{ color: '#333', textAlign: 'center' }}>투두리스트</h1>
         <TodoInput onAdd={onAdd} />

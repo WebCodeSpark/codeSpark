@@ -1,13 +1,13 @@
 {
   "userlist": [
     {
-      "id": 1,
+      "id": "1",
       "email": "user1@gmail.com",
       "password": "0000",
       "username": "User1"
     },
     {
-      "id": 2,
+      "id": "2",
       "email": "user2@gmail.com",
       "password": "0000",
       "username": "User2"
@@ -58,6 +58,15 @@
       "body": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
       "hashTags": [
         "ㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹ"
+      ],
+      "userId": 1
+    },
+    {
+      "id": "6",
+      "title": "제목",
+      "body": "내용",
+      "hashTags": [
+        "해ㅏㅇ"
       ],
       "userId": 1
     }

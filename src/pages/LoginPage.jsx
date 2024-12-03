@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage({ setLoggedInUser }) {
   const [userlist, setUserlist] = useState([]); // JSON 서버의 사용자 데이터
   const [email, setEmail] = useState(''); // 입력된 이메일
   const [password, setPassword] = useState(''); // 입력된 비밀번호
+  const navigate = useNavigate();
 
   useEffect(() => {
     // JSON 서버에서 userlist 가져오기
@@ -31,6 +33,7 @@ export default function LoginPage({ setLoggedInUser }) {
     if (user) {
       setLoggedInUser(user); // 로그인된 사용자 상태 업데이트
       alert(`${user.username}님, 로그인 성공`);
+      navigate('/main');
     } else {
       alert('로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
     }
