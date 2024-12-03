@@ -8,17 +8,13 @@ export default function ListPage({ posts, setPosts }) {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
         const response = await fetch('http://localhost:3000/post');
         if (response.ok) {
           const data = await response.json();
           setPosts(data.reverse());
         } else {
-          console.error(`Failed to fetch posts: ${response.status}`);
-        }
-      } catch (error) {
-        console.error('Error fetching posts:', error);
-      }
+          console.error(`안돼!!!: ${response.status}`);
+        }  
     };
     fetchPosts();
   }, [setPosts]);
@@ -68,7 +64,7 @@ export default function ListPage({ posts, setPosts }) {
         <p style={{ textAlign: 'center' }}>검색된 게시글이 없습니다.</p>
       ) : (
         filteredPosts
-        .filter((post) => post && post.title) // undefined 또는 title이 없는 요소 제외
+        .filter((post) => post && post.title) 
         .map((post) => (
           <div key={post.id} style={{ marginBottom: '20px' }}>
             <h2

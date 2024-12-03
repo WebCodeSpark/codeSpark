@@ -16,24 +16,44 @@
   "post": [
     {
       "id": "1",
-      "title": "11",
-      "body": "11",
+      "title": "ㄱㄷㄴ",
+      "body": "ㄹㄴㅇㄴㄹㅇ",
       "hashTags": [
-        "11"
+        "ㄹㄴㅇㄴㄹㅇ"
       ],
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "title": "ㄴㅇㄹ",
+      "body": "ㄹㄴㅇㄴㅇㄹ",
+      "hashTags": [],
+      "userId": 1
+    },
+    {
+      "id": "3",
+      "title": "1",
+      "body": "ㅂsdfsdfsd",
+      "hashTags": [
+        "ㅁㄴㅇㅇ",
+        "111"
+      ],
+      "userId": 1
+    },
+    {
+      "id": "4",
+      "title": "ㄴㅇㄹㅁㄴㅇ",
+      "body": "ㄻㄴㅁㄴㅇㅁㅇㄴqweqwe",
+      "hashTags": [],
       "userId": 1
     }
   ],
   "comments": [
     {
-      "text": "ㅋㅌㅋㅋㅋㅋ",
-      "id": "95e7"
-    },
-    {
-      "id": "4728",
-      "text": "ㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+      "id": "874a",
+      "text": "qwewqe",
       "userId": "2",
-      "postId": "1"
+      "postId": "4"
     }
   ]
 }
