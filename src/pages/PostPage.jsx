@@ -29,10 +29,10 @@ function Update({ title, body, hashTags, onUpdate }) {
   const addHashTag = (e) => {
     if (e.key === 'Enter' && newInputHashTag.trim()) {
       e.preventDefault(); // 폼 제출 방지
-      e.stopPropagation(); // 이벤트 전파 중단
+      e.stopPropagation(); 
       if (newHashTags.length < 5 && !newHashTags.includes(newInputHashTag.trim())) {
         setNewHashTags([...newHashTags, newInputHashTag.trim()]);
-        setNewInputHashTag(''); // 입력창 초기화
+        setNewInputHashTag('');
       }
     }
   };
@@ -51,7 +51,7 @@ function Update({ title, body, hashTags, onUpdate }) {
     <div>
       <form
         onSubmit={(event) => {
-          event.preventDefault(); // 기본 폼 제출 방지
+          event.preventDefault();
           onUpdate(newTitle, newBody, newHashTags);
         }}
       >
@@ -69,19 +69,16 @@ function Update({ title, body, hashTags, onUpdate }) {
           rows="5"
           style={{width:'50%'}}
         />
-
         <br/>
         <input
           value={newInputHashTag}
           onChange={changeHashTagInput}
-          onKeyDown={addHashTag} // Enter 키로 해시태그 추가
+          onKeyDown={addHashTag} 
           onKeyUp={keyDownHandler} // 빈 공백 방지
           placeholder="#해시태그를 등록해보세요. (최대 5개)"
           style={{width:'50%'}}
         />
-          
         <br/>
-
         {newHashTags.map((tag, index) => (
           <span key={index} style={commonStyle.hashtag}>
             {tag}{' '}
@@ -105,30 +102,57 @@ export default function PostPage({ posts, setPosts }) {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [post, setPost] = useState(null);
-
-   // 댓글 관련 상태 추가
-   const [comments, setComments] = useState({}); // 댓글 목록 상태
-   const [commentInput, setCommentInput] = useState(''); // 댓글 입력 상태
-   const [editingComment, setEditingComment] = useState(null); // 댓글 수정 상태
+  const [comments, setComments] = useState({}); // 각 게시글 댓글
+  const [commentInput, setCommentInput] = useState(''); // 댓글 입력 상태
+  const [editingComment, setEditingComment] = useState(null); // 댓글 수정 상태
    
-   useEffect(() => {
-    const fetchPost = async () => {
-      const response = await axios.get(`http://localhost:3000/post/${postId}`);
-      if (response.status === 200) {
-        setPost(response.data);
+  useEffect(() => {
+    const fetchPostAndComments = async () => {
+      try {
+        const postResponse = await axios.get(`http://localhost:3000/post/${postId}`);
+        if (postResponse.status === 200) {
+          setPost(postResponse.data);
+        }
+        await fetchComments(); // 댓글 가져오기 호출
+      } catch (error) {
+        console.error('Error fetching post or comments:', error);
       }
     };
-    fetchPost();
+    fetchPostAndComments();
   }, [postId]);
 
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/comments?postId=${postId}`);
+      if (response.status === 200) {
+        setComments(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
   if (!post) {
     return <div>게시글을 불러오는 중입니다...</div>;
   }
-  const onDelete = () => {
-    setPosts(posts.filter((p) => p.id !== post.id));
-    navigate('/list'); // 삭제 후 메인 페이지로 이동
+  const onDelete = async () => {
+    try {
+      const commentsResponse = await axios.get(`http://localhost:3000/comments?postId=${post.id}`);  
+      if (commentsResponse.status === 200) {
+        const deleteCommentsPromises = commentsResponse.data.map((comment) => 
+          axios.delete(`http://localhost:3000/comments/${comment.id}`)
+        );
+        await Promise.all(deleteCommentsPromises);
+      }
+  
+      await axios.delete(`http://localhost:3000/post/${post.id}`);
+      setPosts(posts.filter((p) => p.id !== post.id));
+      navigate('/list'); 
+  
+    } catch (error) {
+      console.error('Error deleting post and comments:', error);
+    }
   };
-
+  
   const onUpdate = async (title, body, hashTags) => {
     const updatedPost = {
       ...post,
@@ -149,60 +173,76 @@ export default function PostPage({ posts, setPosts }) {
       setPost(updatedPost);
       setIsEditing(false); // 수정 완료 후 수정 모드 종료
     } catch (error) {
-      console.error('Error updating post:', error);
+      console.error('안돼!!!:', error);
     }
   };
 
-  // 댓글 추가
-  const onAddComment = (comment) => {
-    if (comment.trim() === '') return;
-    const postComments = comments[post.id] || [];
+  const onAddComment = async (commentText) => {
+    if (commentText.trim() === '') return;
+  
     const newComment = {
-      id: new Date().getTime(),
-      text: comment,
+      text: commentText,
+      userId: "2",
+      postId: postId, 
     };
-    setComments({
-      ...comments,
-      [post.id]: [...postComments, newComment],
-    });
-    setCommentInput('');
+  
+    try {
+      const response = await axios.post(`http://localhost:3000/comments`, newComment);
+      if (response.status === 201) {
+        setComments((prevComments) => {
+          const updatedComments = [...prevComments, response.data];
+          return updatedComments; // 댓글 추가
+        });
+        setCommentInput('');
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
-
-  // 댓글 삭제
-  const onDeleteComment = (commentId) => {
-    const updatedComments = comments[post.id].filter(
-      (comment) => comment.id !== commentId
-    );
-    setComments({
-      ...comments,
-      [post.id]: updatedComments,
-    });
+  
+  const onDeleteComment = async (commentId) => {
+    try {
+      await axios.delete(`http://localhost:3000/comments/${commentId}`);
+      setComments((prevComments) => 
+        prevComments.filter((comment) => comment.id !== commentId)
+      );
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
   };
-
-  // 댓글 수정
-  const onEditComment = (commentId, text) => {
-    setEditingComment({ id: commentId, text });
+  
+  const onSubmitEditComment = async () => {
+    if (!editingComment || editingComment.text.trim() === '') return; // 빈 댓글 방지
+    try {
+      // 댓글 수정 요청
+      const response = await axios.put(
+        `http://localhost:3000/comments/${editingComment.id}`,
+        { text: editingComment.text } // 수정된 텍스트를 전송
+      );
+  
+      if (response.status === 200) {
+        // 수정된 댓글을 상태에서 바로 업데이트
+        setComments((prevComments) => 
+          prevComments.map((comment) =>
+            comment.id === editingComment.id
+              ? { ...comment, text: editingComment.text }
+              : comment
+          )
+        );
+        setEditingComment(null); // 수정 모드 종료
+      }
+    } catch (error) {
+      console.error('Error editing comment:', error);
+    }
   };
-
-  const onSubmitEditComment = () => {
-    const updatedComments = comments[post.id].map((comment) =>
-      comment.id === editingComment.id
-        ? { ...comment, text: editingComment.text }
-        : comment
-    );
-    setComments({
-      ...comments,
-      [post.id]: updatedComments,
-    });
-    setEditingComment(null);
-  };
-
+ 
   return (
     <div>
       {isEditing ? (
         <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
       ) : (
         <>
+          <button onClick={() => navigate('/list')}  style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
           <h1>{post.title}</h1>
           <p>{post.body}</p>
           
@@ -220,14 +260,12 @@ export default function PostPage({ posts, setPosts }) {
            <br/>
           <button onClick={() => setIsEditing(true)}>수정</button>
           <button onClick={onDelete}>삭제</button>
-          <button onClick={() => navigate('/list')}>목록</button>
         </>
       )}
-
       <h3>댓글</h3>
-      {comments[post.id] && comments[post.id].length > 0 ? (
+      {comments.length > 0 ? (
         <ul>
-          {comments[post.id].map((comment) => (
+          {comments.map((comment) => (
             <li key={comment.id}>
               {editingComment && editingComment.id === comment.id ? (
                 <div>
@@ -245,7 +283,7 @@ export default function PostPage({ posts, setPosts }) {
                 <>
                   {comment.text}
                   <button onClick={() => onDeleteComment(comment.id)}>삭제</button>
-                  <button onClick={() => onEditComment(comment.id, comment.text)}>수정</button>
+                  <button onClick={() => setEditingComment(comment)}>수정</button>
                 </>
               )}
             </li>
@@ -254,7 +292,6 @@ export default function PostPage({ posts, setPosts }) {
       ) : (
         <p>댓글이 없습니다.</p>
       )}
-      
       <input
         type="text"
         value={commentInput}
@@ -262,7 +299,7 @@ export default function PostPage({ posts, setPosts }) {
         placeholder="댓글을 입력하세요"
         style={{width:'50%'}}
       />
-      <button onClick={() => onAddComment(commentInput)}>댓글 작성</button>
+     <button onClick={() => onAddComment(commentInput)}>댓글 작성</button>
     </div>
   );
 }
