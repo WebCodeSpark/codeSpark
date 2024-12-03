@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const commonStyle = {
   hashtag: {
@@ -112,10 +113,9 @@ export default function PostPage({ posts, setPosts }) {
    
    useEffect(() => {
     const fetchPost = async () => {
-      const response = await fetch(`http://localhost:3000/post/${postId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setPost(data);
+      const response = await axios.get(`http://localhost:3000/post/${postId}`);
+      if (response.status === 200) {
+        setPost(response.data);
       }
     };
     fetchPost();
@@ -129,20 +129,28 @@ export default function PostPage({ posts, setPosts }) {
     navigate('/list'); // 삭제 후 메인 페이지로 이동
   };
 
-  const onUpdate = (title, body, hashTags) => {
-    setPosts(
-      posts.map((p) =>
-        p.id === post.id
-          ? {
-              ...p,
-              title,
-              body,
-              hashTags,
-            }
-          : p
-      )
-    );
-    setIsEditing(false); // 수정 완료 후 수정 모드 종료
+  const onUpdate = async (title, body, hashTags) => {
+    const updatedPost = {
+      ...post,
+      title,
+      body,
+      hashTags,
+    };
+  
+    try {
+      await axios.put(`http://localhost:3000/post/${post.id}`, updatedPost);
+      setPosts(
+        posts.map((p) =>
+          p.id === post.id
+            ? updatedPost
+            : p
+        )
+      );
+      setPost(updatedPost);
+      setIsEditing(false); // 수정 완료 후 수정 모드 종료
+    } catch (error) {
+      console.error('Error updating post:', error);
+    }
   };
 
   // 댓글 추가
