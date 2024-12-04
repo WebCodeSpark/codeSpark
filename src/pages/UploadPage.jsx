@@ -13,8 +13,9 @@ export default function UploadPage({ posts, setPosts }) {
 
   const [text, setText] = useState('');
   const [result, setReult] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(''); // 선택된 이미지 URL
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const makeImage = () => {
     const prompt = `다음문장을 영어로 번역해주세요${text}`;
@@ -25,7 +26,7 @@ export default function UploadPage({ posts, setPosts }) {
           console.log(images);
           setReult(images);
         },
-        4
+        3
       );
     });
   };
@@ -35,7 +36,7 @@ export default function UploadPage({ posts, setPosts }) {
     setBody(value);
     setText(value);
   };
-  
+
   useEffect(() => {
     (async () => {
       if (posts.length === 0) {
@@ -45,7 +46,7 @@ export default function UploadPage({ posts, setPosts }) {
     })();
   }, [posts, setPosts]);
 
-  const onAdd = (title, body) => {
+  const onAdd = async (title, body) => {
     const newId = posts.length > 0 ? Math.max(...posts.map((post) => post.id)) + 1 : 1;
     const newPost = {
       id: String(newId),
@@ -53,13 +54,15 @@ export default function UploadPage({ posts, setPosts }) {
       body,
       hashTags,
       userId: 1,
+      img: selectedImage // 선택된 이미지를 저장
     };
-    const response = axios.post('http://localhost:3000/post', newPost);
+    const response = await axios.post('http://localhost:3000/post', newPost);
     setPosts((prevPosts) => [response.data, ...prevPosts]);
     setTitle('');
     setBody('');
     setHashTags([]);
-    navigate(`/post/${newId}`); 
+    setSelectedImage(''); // 선택된 이미지 초기화
+    navigate(`/post/${newId}`);
   };
 
   const changeHashTagInput = (e) => setInputHashTag(e.target.value);
@@ -70,7 +73,7 @@ export default function UploadPage({ posts, setPosts }) {
       e.preventDefault();
       if (hashTags.length < 5 && !hashTags.includes(inputHashTag.trim())) {
         setHashTags([...hashTags, inputHashTag.trim()]);
-        setInputHashTag(''); 
+        setInputHashTag('');
       }
     }
   };
@@ -88,6 +91,8 @@ export default function UploadPage({ posts, setPosts }) {
 
   return (
     <div>
+      <button onClick={() => navigate('/list')} style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
+      <br/><br/>
       <input
         type="text"
         onChange={(e) => setTitle(e.target.value)}
@@ -97,8 +102,8 @@ export default function UploadPage({ posts, setPosts }) {
       />
 
       <textarea
-        onChange={handleChange} // 하나의 함수로 두 상태 업데이트
-        value={body} // body 상태를 value로 사용
+        onChange={handleChange}
+        value={body}
         placeholder="내용을 입력하세요"
         rows="5"
         className="input-field"
@@ -125,13 +130,23 @@ export default function UploadPage({ posts, setPosts }) {
       </div>
 
       <br />
-      <button onClick={() => makeImage()}>이미지</button>
-      <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {result.map((image) => (
-          <img src={image.url} style={{ width: 128, height: 128 }} />
+      <button onClick={makeImage}> 이미지 생성</button>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px',marginBottom:'10px'}}>
+        {result.map((image, index) => (
+          <img
+            key={index}
+            src={image.url}
+            style={{
+              width: 128,
+              height: 128,
+              border: selectedImage === image.url ? '3px solid blue' : '1px solid gray',
+              cursor: 'pointer'
+            }}
+            onClick={() => setSelectedImage(image.url)} // 이미지 선택
+            alt={`Generated ${index}`}
+          />
         ))}
       </div>
-      
       <button
         onClick={() => {
           if (title && body) onAdd(title, body);

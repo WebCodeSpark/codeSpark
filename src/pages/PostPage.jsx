@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { chat, dalle } from './openai'; 
 
 const commonStyle = {
   hashtag: {
@@ -16,15 +17,29 @@ const commonStyle = {
   },
 };
 
-function Update({ title, body, hashTags, onUpdate }) {
+function Update({ title, body, hashTags, img, onUpdate }) {
   const [newTitle, setNewTitle] = useState(title);
   const [newBody, setNewBody] = useState(body);
   const [newInputHashTag, setNewInputHashTag] = useState('');
   const [newHashTags, setNewHashTags] = useState(hashTags || []);
+  const [newImg, setNewImg] = useState(img || '');
+  const [generatedImages, setGeneratedImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(img || '');
+
+   // 이미지 생성 요청
+   const generateImages = () => {
+    const prompt = `다음 문장을 기반으로 이미지를 생성해주세요: ${newBody}`;
+    chat(prompt, (result) => {
+      dalle(result, (images) => {
+        setGeneratedImages(images);
+      }, 3);
+    });
+  };
 
   const changeHashTagInput = (e) => {
     setNewInputHashTag(e.target.value);
   };
+
 
   const addHashTag = (e) => {
     if (e.key === 'Enter' && newInputHashTag.trim()) {
@@ -52,7 +67,7 @@ function Update({ title, body, hashTags, onUpdate }) {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          onUpdate(newTitle, newBody, newHashTags);
+          onUpdate(newTitle, newBody, newHashTags, selectedImage || newImg);
         }}
       >
         <p>제목</p>
@@ -90,7 +105,27 @@ function Update({ title, body, hashTags, onUpdate }) {
             </span>
           </span>
         ))}
-        <br/><br/>
+
+
+        <button type="button" onClick={generateImages}>
+          이미지 생성
+        </button>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px',marginBottom:'10px' }}>
+          {generatedImages.map((image, index) => (
+            <img
+              key={index}
+              src={image.url}
+              alt={`Generated ${index}`}
+              style={{
+                width: '128px',
+                height: '128px',
+                border: selectedImage === image.url ? '3px solid blue' : '1px solid gray',
+                cursor: 'pointer',
+              }}
+              onClick={() => setSelectedImage(image.url)}
+            />
+          ))}
+        </div>
         <button type="submit">수정 완료</button>
       </form>
     </div>
@@ -153,12 +188,13 @@ export default function PostPage({ posts, setPosts }) {
     }
   };
   
-  const onUpdate = async (title, body, hashTags) => {
+  const onUpdate = async (title, body, hashTags,img) => {
     const updatedPost = {
       ...post,
       title,
       body,
       hashTags,
+      img,
     };
   
     try {
@@ -239,29 +275,52 @@ export default function PostPage({ posts, setPosts }) {
   return (
     <div>
       {isEditing ? (
-        <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
-      ) : (
-        <>
-          <button onClick={() => navigate('/list')}  style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
-          <h1>{post.title}</h1>
-          <p>{post.body}</p>
-          
-          {post.hashTags && post.hashTags.length > 0 ? (
-            <div>
-              {post.hashTags.map((tag, index) => (
-                <span key={index} style={commonStyle.hashtag}>
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <p>해시태그가 없습니다.</p>
-          )}
-           <br/>
-          <button onClick={() => setIsEditing(true)}>수정</button>
-          <button onClick={onDelete}>삭제</button>
-        </>
-      )}
+          <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
+        ) : (
+          <>
+            <button onClick={() => navigate('/list')} style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
+            <h1>{post.title}</h1>
+            <p>{post.body}</p>
+
+            {post.hashTags && post.hashTags.length > 0 ? (
+              <div>
+                {post.hashTags.map((tag, index) => (
+                  <span key={index} style={commonStyle.hashtag}>
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p>해시태그가 없습니다.</p>
+            )}
+
+            {Array.isArray(post.img) && post.img.length > 0 ? (
+              <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {post.img.map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Post image ${index + 1}`}
+                    style={{ width: '150px', height: '150px', margin: '10px', objectFit: 'cover' }}
+                  />
+                ))}
+              </div>
+            ) : post.img ? ( // img가 문자열일 경우 처리
+              <img
+                src={post.img}
+                alt="Post image"
+                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+              />
+            ) : (
+              <p>이미지가 없습니다.</p>
+            )}
+
+            <br />
+            <button onClick={() => setIsEditing(true)}>수정</button>
+            <button onClick={onDelete}>삭제</button>
+          </>
+        )}
+
       <h3>댓글</h3>
       {comments.length > 0 ? (
         <ul>

@@ -2,17 +2,17 @@ import React from 'react';
 
 export default function LinkPage() {
   const backjoon = {
-    source: '/img/bookjoon.jpg',
+    source: '/img/baekjoon.png',
     url: 'https://www.acmicpc.net/',
   };
 
   const programmers = {
-    source: '/img/programmers.jpg',
+    source: '/img/programmers.png',
     url: 'https://programmers.co.kr/',
   };
 
   const github = {
-    source: '/img/github.jpg',
+    source: '/img/github.png',
     url: 'https://github.com/',
   };
 

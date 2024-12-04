@@ -16,54 +16,26 @@
   "post": [
     {
       "id": "1",
-      "title": "ㄱㄷㄴ",
-      "body": "ㄹㄴㅇㄴㄹㅇ",
+      "title": "안녕",
+      "body": "바다",
       "hashTags": [
-        "ㄹㄴㅇㄴㄹㅇ"
+        "여행",
+        "밤",
+        "바다"
       ],
-      "userId": 1
+      "userId": 1,
+      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-2YFD8J5StDDaDT357fVqxfaX.png?st=2024-12-03T15%3A39%3A36Z&se=2024-12-03T17%3A39%3A36Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-03T00%3A39%3A28Z&ske=2024-12-04T00%3A39%3A28Z&sks=b&skv=2024-08-04&sig=SJmwCnNKwmfGdmaZ9XjfoQyn6bmuuOHLZg06KC9LcZo%3D"
     },
     {
       "id": "2",
-      "title": "ㄴㅇㄹ",
-      "body": "ㄹㄴㅇㄴㅇㄹ",
-      "hashTags": [],
-      "userId": 1
-    },
-    {
-      "id": "3",
-      "title": "1",
-      "body": "ㅂsdfsdfsd",
+      "title": "푸바오",
+      "body": "당근 먹는 판다",
       "hashTags": [
-        "ㅁㄴㅇㅇ",
-        "111"
+        "당근",
+        "판다"
       ],
-      "userId": 1
-    },
-    {
-      "id": "4",
-      "title": "ㄴㅇㄹㅁㄴㅇ",
-      "body": "ㄻㄴㅁㄴㅇㅁㅇㄴqweqwe",
-      "hashTags": [],
-      "userId": 1
-    },
-    {
-      "id": "5",
-      "title": "ㄴㄹㅇ",
-      "body": "ㄴㅇㄹ",
-      "hashTags": [
-        "ㄴㅇㄹ"
-      ],
-      "userId": 1
-    },
-    {
-      "id": "6",
-      "title": "ㄴㅇㄹ",
-      "body": "ㄴㄹㅇ",
-      "hashTags": [
-        "ㄴㅇㄹ"
-      ],
-      "userId": 1
+      "userId": 1,
+      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-tVsIAd7c4GWROFSD498xGXyl.png?st=2024-12-03T16%3A34%3A46Z&se=2024-12-03T18%3A34%3A46Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-03T00%3A10%3A24Z&ske=2024-12-04T00%3A10%3A24Z&sks=b&skv=2024-08-04&sig=57SDoGFeVm%2BdjTz2xxClAveUfkp%2BZXhlGMi3Iv9tGOE%3D"
     }
   ],
   "comments": []

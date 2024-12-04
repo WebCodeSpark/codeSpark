@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Header from './components/Header';  // Header 컴포넌트 임포트
-import ProfilePage from './pages/ProfilePage';  // ProfilePage 컴포넌트 임포트
 import MainPage from './pages/MainPage';
 import LinkPage from './pages/LinkPage';  // LinkPage 컴포넌트 임포트
 import CalendarPage from './pages/CalendarPage'; // Calendar 컴포넌트 임포트
@@ -31,7 +30,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/main" replace />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/link" element={<LinkPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/upload" element={<UploadPage posts={posts} setPosts={setPosts} />} />
