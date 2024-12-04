@@ -1,15 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Weather from '../pages/WeatherPage';
 
 export default function Header({ userName, onLogout }) {
-  const navigate = useNavigate();
-
-  const handleLogoutClick = () => {
-    onLogout(); // 사용자 상태 초기화
-    navigate('/main'); // 메인 페이지로 이동
-  };
   return (
     <header>
       <h1 className="centered-title">

@@ -9,7 +9,7 @@ export default function MainPage() {
   const [calendarValue, setCalendarValue] = useState(new Date());
   const [filteredTodos, setFilteredTodos] = useState([]);
   const remain = todos.filter(todo => todo.check == false).length
-  
+
   const [text, setText] = useState('');
   const [result, setResult] = useState([]);
   const makeImage = (todoTitle) => {
@@ -151,6 +151,9 @@ export default function MainPage() {
       {/* 투두리스트 영역 */}
       <div style={{ flex: 1, maxWidth: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h1 style={{ color: '#333', textAlign: 'center' }}>투두리스트</h1>
+        <span style={{ fontSize: 20 }}>
+        {remain}개/{todos.length}개
+        </span>
         <TodoInput onAdd={onAdd} />
         <TodoList todos={filteredTodos} onDelete={onDelete} onUpdate={onUpdate} makeImage={makeImage} result={result}/>
       </div>
