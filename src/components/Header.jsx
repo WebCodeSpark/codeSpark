@@ -14,87 +14,87 @@ export default function Header({ userName, onLogout }) {
       <nav>
         <ul className="horizontal-nav">
           <li>
-            <Link to="/list">스파크</Link>
+            <Link to="/list" className="nav-item">스파크</Link>
           </li>
           <li>
-            <Link to="/main">하루</Link>
+            <Link to="/main" className="nav-item">하루</Link>
           </li>
           {userName ? (
             <>
               <li>
-                <span aria-label="Logged in user">{userName}님</span>
+                <span className="logout-button">{userName}님</span>
               </li>
               <li>
-                <button 
-                  onClick={onLogout} 
-                  aria-label="Logout button"
-                  className="logout-button"
-                >
-                  로그아웃
-                </button>
+                <button onClick={onLogout} className="logout-button">로그아웃</button>
               </li>
             </>
           ) : (
             <li>
-              <Link to="/login" aria-label="Login link">로그인</Link>
+              <Link to="/login" className="nav-item">로그인</Link>
             </li>
           )}
         </ul>
       </nav>
 
-      <div style={{position: 'absolute', top: '10px', right: '20px', display: 'flex', alignItems: 'center',}}>
+      <div style={{ position: 'absolute', top: '10px', right: '20px' }}>
         <Weather />
       </div>
 
       <style>
         {`
+          header {
+            background-color: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+          }
+
           .centered-title {
-            text-align: center; 
+            font-size: 36px;
             margin: 0;
-            padding: 38px 0; 
-            font-size: 32px;
-            line-height: 1.5; 
+            font-weight: bold; 
           }
 
           .horizontal-nav {
             list-style: none;
-            display: flex; 
-            justify-content: center; 
+            display: flex;
+            justify-content: center;
             padding: 0;
-            margin: 0;
-            gap: 20px; 
-            flex-wrap: nowrap; 
+            margin: 30px 0 0 0;
+            gap: 20px;
           }
 
           .horizontal-nav li {
-            margin: 0; 
             display: flex;
             align-items: center;
           }
 
-          .horizontal-nav a,
-          .horizontal-nav button {
-            text-decoration: none;
-            color: #333;
+          .nav-item {
+            color: white;
             padding: 8px 12px;
-            border: none;
-            background: none;
+            text-decoration: none;
             cursor: pointer;
-            font-size: 16px;
+            font-weight: 600;
+            font-size:18px;
+          }
+
+          .nav-item:hover {
+            background-color: #0077cc; 
           }
 
           .logout-button {
             background-color: transparent;
-            color: #333;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border:none;
             padding: 6px 12px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            color: white;
+            font-weight: 600;
+            font-size:18px;
           }
 
           .logout-button:hover {
-            background-color: #f0f0f0;
+            background-color: #0077cc;
+            color: white;
           }
         `}
       </style>

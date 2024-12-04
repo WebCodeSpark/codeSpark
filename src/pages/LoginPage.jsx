@@ -42,7 +42,7 @@ export default function LoginPage({ setLoggedInUser }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
       <form onSubmit={handleLogin} style={{ textAlign: 'center' }}>
-        <h2>로그인</h2>
+        <h3>로그인</h3>
         <input
           type="email"
           placeholder="이메일"

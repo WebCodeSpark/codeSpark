@@ -5,7 +5,7 @@ class Weather extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      city:'용인',
+      city: '용인',
       temp: 0,
       temp_max: 0,
       temp_min: 0,
@@ -16,7 +16,7 @@ class Weather extends Component {
     };
   }
 
-  // 컴포넌트 생성 후 날씨 정보 조회
+  // 날씨 정보 조회
   componentDidMount() {
     const cityName = 'YongIn';
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
@@ -65,7 +65,6 @@ class Weather extends Component {
   }
 }
 
-// 스타일 객체
 const styles = {
   weatherContainer: {
     display: 'flex',
@@ -75,10 +74,12 @@ const styles = {
     fontSize: '16px',
     backgroundColor: '#f8f8f8',
     width: '280px',
+    color: 'black', 
   },
   temp: {
     fontSize: '20px',
     fontWeight: 'bold',
+    color: 'black',  
   },
   icon: {
     width: '20px',
@@ -90,6 +91,7 @@ const styles = {
     gap: '3px',
     fontSize: '12px',
     textAlign: 'right',
+    color: 'black',
   },
 };
 
