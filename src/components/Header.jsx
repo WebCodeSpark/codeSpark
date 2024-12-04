@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Weather from '../pages/WeatherPage';
 
 export default function Header({ userName, onLogout }) {
-
   return (
     <header>
       <h1 className="centered-title">
