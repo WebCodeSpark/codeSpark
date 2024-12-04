@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Weather from '../pages/WeatherPage';
 
 export default function Header({ userName, onLogout }) {
   return (
@@ -39,13 +40,19 @@ export default function Header({ userName, onLogout }) {
           )}
         </ul>
       </nav>
+
+      <div style={{position: 'absolute', top: '10px', right: '20px', display: 'flex', alignItems: 'center',}}>
+        <Weather />
+      </div>
+
       <style>
         {`
           .centered-title {
             text-align: center; 
             margin: 0;
-            padding: 10px 0; 
-            font-size: 24px;
+            padding: 38px 0; 
+            font-size: 32px;
+            line-height: 1.5; 
           }
 
           .horizontal-nav {

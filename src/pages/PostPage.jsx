@@ -105,8 +105,7 @@ function Update({ title, body, hashTags, img, onUpdate }) {
             </span>
           </span>
         ))}
-
-
+        <br/><br/>
         <button type="button" onClick={generateImages}>
           이미지 생성
         </button>
@@ -126,7 +125,7 @@ function Update({ title, body, hashTags, img, onUpdate }) {
             />
           ))}
         </div>
-        <button type="submit">수정 완료</button>
+        <button type="submit" style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>수정 완료</button>
       </form>
     </div>
   );
@@ -273,12 +272,12 @@ export default function PostPage({ posts, setPosts }) {
   };
  
   return (
-    <div>
+    <div style={{ width: '70%', maxWidth: '1200px', margin: '0 auto' }}>
       {isEditing ? (
           <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
         ) : (
           <>
-            <button onClick={() => navigate('/list')} style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
+            <button onClick={() => navigate('/list')}style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
             <h1>{post.title}</h1>
             <p>{post.body}</p>
 
@@ -316,14 +315,14 @@ export default function PostPage({ posts, setPosts }) {
             )}
 
             <br />
-            <button onClick={() => setIsEditing(true)}>수정</button>
-            <button onClick={onDelete}>삭제</button>
+            <button onClick={() => setIsEditing(true)} style={{ padding:'5px 8px', marginRight:'5px',cursor: 'pointer' }}>수정</button>
+            <button onClick={onDelete} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>삭제</button>
           </>
         )}
 
-      <h3>댓글</h3>
+      <h3>댓글 ({comments.length})</h3>
       {comments.length > 0 ? (
-        <ul>
+        <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
           {comments.map((comment) => (
             <li key={comment.id}>
               {editingComment && editingComment.id === comment.id ? (
@@ -331,18 +330,18 @@ export default function PostPage({ posts, setPosts }) {
                   <input
                     type="text"
                     value={editingComment.text}
-                    style={{width:'50%'}}
+                    style={{width:'50%',padding: '8px',marginRight: '10px'}}
                     onChange={(e) =>
                       setEditingComment({ ...editingComment, text: e.target.value })
                     }
                   />
-                  <button onClick={onSubmitEditComment}>확인</button>
+                  <button onClick={onSubmitEditComment} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>확인</button>
                 </div>
               ) : (
                 <>
                   {comment.text}
-                  <button onClick={() => onDeleteComment(comment.id)}>삭제</button>
-                  <button onClick={() => setEditingComment(comment)}>수정</button>
+                  <button onClick={() => setEditingComment(comment)} style={{ padding:'5px 8px', marginLeft: '20px', marginRight:'5px',cursor: 'pointer' }}>수정</button>
+                  <button onClick={() => onDeleteComment(comment.id)} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>삭제</button>
                 </>
               )}
             </li>
@@ -356,9 +355,9 @@ export default function PostPage({ posts, setPosts }) {
         value={commentInput}
         onChange={(e) => setCommentInput(e.target.value)}
         placeholder="댓글을 입력하세요"
-        style={{width:'50%'}}
+        style={{width:'50%',padding: '8px',marginRight: '10px'}}
       />
-     <button onClick={() => onAddComment(commentInput)}>댓글 작성</button>
+     <button onClick={() => onAddComment(commentInput)} style={{ padding:'5px 8px', marginRight: '20px', cursor: 'pointer' }}>댓글 작성</button>
     </div>
   );
 }

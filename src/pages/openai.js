@@ -16,7 +16,7 @@ const chat = async (prompt, onMessage) => {
           model: "gpt-3.5-turbo",
           temperature: 0.5,
           messages: messages          
-        }, {headers, timeout:10000}
+        }, {headers, timeout:30000}
     ).then(response => {
       console.log(response.data.choices[0].message.content)
       onMessage(response.data.choices[0].message.content)
@@ -39,7 +39,7 @@ const chatHistory = async (prompt, messages, onMessage) => {
           model: "gpt-3.5-turbo",
           temperature: 0.5,
           messages: gg 
-        }, {headers, timeout:15000}
+        }, {headers, timeout:30000}
     ).then(response => {
       console.log("응답 : ", response.data.choices[0].message.content)
       onMessage(response.data.choices[0].message.content)

@@ -9,6 +9,7 @@ import UploadPage from './pages/UploadPage';
 import PostPage  from './pages/PostPage';
 import ListPage  from './pages/ListPage';
 import LoginPage from './pages/LoginPage';
+import WeatherPage from './pages/WeatherPage';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
             path="/login" 
             element={<LoginPage setLoggedInUser={setLoggedInUser} />} 
           />
+          <Route path="/weather" element={<WeatherPage />} />
         </Routes>
       </div>
       <Footer />

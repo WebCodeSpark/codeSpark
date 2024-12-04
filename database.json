@@ -36,7 +36,78 @@
       ],
       "userId": 1,
       "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-tVsIAd7c4GWROFSD498xGXyl.png?st=2024-12-03T16%3A34%3A46Z&se=2024-12-03T18%3A34%3A46Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-03T00%3A10%3A24Z&ske=2024-12-04T00%3A10%3A24Z&sks=b&skv=2024-08-04&sig=57SDoGFeVm%2BdjTz2xxClAveUfkp%2BZXhlGMi3Iv9tGOE%3D"
+    },
+    {
+      "id": "3",
+      "title": "바보",
+      "body": "천사",
+      "hashTags": [
+        "바보"
+      ],
+      "userId": 1,
+      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-zg4dLOYUxiAkg6a2bvgQl0xC.png?st=2024-12-04T00%3A47%3A56Z&se=2024-12-04T02%3A47%3A56Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-04T00%3A23%3A43Z&ske=2024-12-05T00%3A23%3A43Z&sks=b&skv=2024-08-04&sig=a3JBdxVGqKJS8DWR9APucZLUh692lU8JgP4elMzfZcA%3D"
+    },
+    {
+      "id": "4",
+      "title": "안녕하세요.",
+      "body": "오늘 아침에 날씨가 춥다",
+      "hashTags": [
+        "추운날씨 #겨울 #한파 #날씨 #아침"
+      ],
+      "userId": 1,
+      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-n5yRtvzwBPcaptVqDJT88bYS.png?st=2024-12-04T00%3A58%3A09Z&se=2024-12-04T02%3A58%3A09Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-04T00%3A11%3A24Z&ske=2024-12-05T00%3A11%3A24Z&sks=b&skv=2024-08-04&sig=4KKVTwdHxjuVGYWmy4egu6pHG3FQiAMCgYzEEbHFeWo%3D"
+    },
+    {
+      "id": "5",
+      "title": "ㅁㅁ",
+      "body": "하기싫어",
+      "hashTags": [
+        "조심해주세요",
+        "불편",
+        "아픔",
+        "바보",
+        "아아"
+      ],
+      "userId": 1,
+      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-uiLfRxKXsFjkR8hHB8pWDTsq.png?st=2024-12-04T01%3A15%3A41Z&se=2024-12-04T03%3A15%3A41Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-04T01%3A02%3A35Z&ske=2024-12-05T01%3A02%3A35Z&sks=b&skv=2024-08-04&sig=v6x4YF3WuLTm4JhWABCu8/m9tiXtKwYQeynXnhucuLc%3D"
+    },
+    {
+      "id": "6",
+      "title": "ㅁㄴㅇㄴㅁㅇ",
+      "body": "ㅁㅁㅋㅌ",
+      "hashTags": [
+        "Request",
+        "failed",
+        "status",
+        "with"
+      ],
+      "userId": 1,
+      "img": ""
+    },
+    {
+      "id": "7",
+      "title": "ㄷㄷㅇㄷ",
+      "body": "바보",
+      "hashTags": [
+        "failed",
+        "Request",
+        "with",
+        "code"
+      ],
+      "userId": 1,
+      "img": ""
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "text": "ㅂㅈㄷㄴㅇㄹㄴㅇㄹㄴㅇㄹ",
+      "id": "1ef1"
+    },
+    {
+      "id": "9bef",
+      "text": "ㄷㄷㄷ",
+      "userId": "2",
+      "postId": "7"
+    }
+  ]
 }
