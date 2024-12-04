@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ListPage({ posts, setPosts }) {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [comments, setComments] = useState([]); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,11 +14,25 @@ export default function ListPage({ posts, setPosts }) {
           const data = await response.json();
           setPosts(data.reverse());
         } else {
-          console.error(`안돼!!!: ${response.status}`);
+          console.error(`오류: ${response.status}`);
         }  
     };
     fetchPosts();
   }, [setPosts]);
+
+    // 댓글 가져오기
+    useEffect(() => {
+      const fetchComments = async () => {
+        const response = await fetch('http://localhost:3000/comments'); // 댓글 API 호출
+        if (response.ok) {
+          const data = await response.json();
+          setComments(data); // 댓글 상태 업데이트
+        } else {
+          console.error(`오류: ${response.status}`);
+        }
+      };
+      fetchComments();
+    }, []);
 
   useEffect(() => {
     if (posts && posts.length > 0) {
@@ -35,6 +50,11 @@ export default function ListPage({ posts, setPosts }) {
       );
       setFilteredPosts(results);
     }
+  };
+
+  // 댓글 수
+  const getCommentCount = (postId) => {
+    return comments.filter(comment => comment.postId === postId).length;
   };
 
   return (
@@ -87,6 +107,7 @@ export default function ListPage({ posts, setPosts }) {
                 # {post.hashTags.join(' ,  # ')}
               </span>
             )}
+            <h3>댓글 ({getCommentCount(post.id)})</h3>
             <hr />
           </div>
         ))

@@ -149,7 +149,7 @@ export default function PostPage({ posts, setPosts }) {
         }
         await fetchComments(); // 댓글 가져오기 호출
       } catch (error) {
-        console.error('Error fetching post or comments:', error);
+        console.error('오류:', error);
       }
     };
     fetchPostAndComments();
@@ -162,7 +162,7 @@ export default function PostPage({ posts, setPosts }) {
         setComments(response.data);
       }
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error('오류:', error);
     }
   };
   if (!post) {
@@ -183,7 +183,7 @@ export default function PostPage({ posts, setPosts }) {
       navigate('/list'); 
   
     } catch (error) {
-      console.error('Error deleting post and comments:', error);
+      console.error('오류:', error);
     }
   };
   
@@ -208,7 +208,7 @@ export default function PostPage({ posts, setPosts }) {
       setPost(updatedPost);
       setIsEditing(false); // 수정 완료 후 수정 모드 종료
     } catch (error) {
-      console.error('안돼!!!:', error);
+      console.error('오류:', error);
     }
   };
 
@@ -231,7 +231,7 @@ export default function PostPage({ posts, setPosts }) {
         setCommentInput('');
       }
     } catch (error) {
-      console.error('Error adding comment:', error);
+      console.error('오류:', error);
     }
   };
   
@@ -242,12 +242,12 @@ export default function PostPage({ posts, setPosts }) {
         prevComments.filter((comment) => comment.id !== commentId)
       );
     } catch (error) {
-      console.error('Error deleting comment:', error);
+      console.error('오류:', error);
     }
   };
   
   const onSubmitEditComment = async () => {
-    if (!editingComment || editingComment.text.trim() === '') return; // 빈 댓글 방지
+    if (!editingComment || editingComment.text.trim() === '') return; 
     try {
       // 댓글 수정 요청
       const response = await axios.put(
@@ -267,7 +267,7 @@ export default function PostPage({ posts, setPosts }) {
         setEditingComment(null); // 수정 모드 종료
       }
     } catch (error) {
-      console.error('Error editing comment:', error);
+      console.error('오류:', error);
     }
   };
  
@@ -304,7 +304,7 @@ export default function PostPage({ posts, setPosts }) {
                   />
                 ))}
               </div>
-            ) : post.img ? ( // img가 문자열일 경우 처리
+            ) : post.img ? (
               <img
                 src={post.img}
                 alt="Post image"
