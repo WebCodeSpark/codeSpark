@@ -18,6 +18,9 @@ export default function Header({ userName, onLogout }) {
           <li>
             <Link to="/main" className="nav-item">하루</Link>
           </li>
+          <li>
+            <Link to="/news" className="nav-item">뉴스</Link>
+          </li>
           {userName ? (
             <>
               <li>
