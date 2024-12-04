@@ -2,11 +2,30 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css'; // 기본 스타일
+import { chat, dalle } from './openai';
 
 export default function MainPage() {
   const [todos, setTodos] = useState([]);
   const [calendarValue, setCalendarValue] = useState(new Date());
   const [filteredTodos, setFilteredTodos] = useState([]);
+  const remain = todos.filter(todo => todo.check == false).length
+  
+  const [text, setText] = useState('');
+  const [result, setResult] = useState([]);
+  const makeImage = (todoTitle) => {
+    const prompt = `다음문장을 영어로 번역하고, 문장에 맞는 이모지 생성해주세요: "${todoTitle}"`;
+    chat(prompt, (result) => {
+      dalle(
+        result,
+        (images) => {
+          console.log(images);
+          setResult(images);
+        },
+        1
+      );
+    });
+  };
+
 
   useEffect(() => {
     const selectedDate = calendarValue.toISOString().split('T')[0];
@@ -133,7 +152,7 @@ export default function MainPage() {
       <div style={{ flex: 1, maxWidth: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <h1 style={{ color: '#333', textAlign: 'center' }}>투두리스트</h1>
         <TodoInput onAdd={onAdd} />
-        <TodoList todos={filteredTodos} onDelete={onDelete} onUpdate={onUpdate} />
+        <TodoList todos={filteredTodos} onDelete={onDelete} onUpdate={onUpdate} makeImage={makeImage} result={result}/>
       </div>
     </div>
   );
@@ -169,21 +188,21 @@ function TodoInput({ onAdd }) {
   );
 }
 
-function TodoList({ todos, onDelete, onUpdate }) {
+function TodoList({ todos, onDelete, onUpdate, makeImage, result }) {
   return (
     <div style={{ marginTop: '10px', width: '100%' }}>
       {todos.length === 0 ? (
         <p style={{ textAlign: 'center', color: '#aaa' }}>선택한 날짜에 투두가 없습니다.</p>
       ) : (
         todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} onDelete={onDelete} onUpdate={onUpdate} />
+          <TodoItem key={todo.id} todo={todo} onDelete={onDelete} onUpdate={onUpdate} makeImage={makeImage} result={result} />
         ))
       )}
     </div>
   );
 }
 
-function TodoItem({ todo, onDelete, onUpdate }) {
+function TodoItem({ todo, onDelete, onUpdate, makeImage, result }) {
   return (
     <div
       style={{
@@ -207,7 +226,18 @@ function TodoItem({ todo, onDelete, onUpdate }) {
         }}
       >
         {todo.title}
+
       </span>
+      <button onClick={() => makeImage(todo.title)}>이미지</button>
+      <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+      {result && result[0] && (
+          <img
+            src={result[0].url}
+            alt="Generated"
+            style={{ width: 80, height: 80 }}
+          />
+        )}
+      </div>
       <button
         onClick={() => onDelete(todo.id)}
         style={{

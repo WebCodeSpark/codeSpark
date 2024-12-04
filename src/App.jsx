@@ -16,7 +16,7 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const handleLogout = () => {
-    setLoggedInUser(null); 
+    setLoggedInUser(null);
   };
 
   return (
