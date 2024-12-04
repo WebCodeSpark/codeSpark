@@ -67,6 +67,8 @@ export default function Header({ userName, onLogout }) {
 
           .horizontal-nav li {
             margin: 0; 
+            display: flex;
+            align-items: center;
           }
 
           .horizontal-nav a,
