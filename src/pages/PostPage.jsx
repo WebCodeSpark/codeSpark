@@ -324,7 +324,7 @@ export default function PostPage({ posts, setPosts }) {
       {comments.length > 0 ? (
         <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
           {comments.map((comment) => (
-            <li key={comment.id}>
+            <li key={comment.id} style={{marginBottom:'7px'}}>
               {editingComment && editingComment.id === comment.id ? (
                 <div>
                   <input
