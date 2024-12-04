@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css'; // 기본 스타일
 import { chat, dalle } from './openai';
@@ -32,24 +31,6 @@ export default function MainPage() {
     setFilteredTodos(todos.filter((todo) => todo.date === selectedDate));
   }, [calendarValue, todos]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
-        setTodos(
-          response.data.slice(0, 0).map((item) => ({
-            id: item.id,
-            title: item.title,
-            check: item.completed,
-            date: new Date().toISOString().split('T')[0],
-          }))
-        );
-      } catch (error) {
-        console.error('초기 데이터를 불러오는 중 오류 발생:', error.message);
-      }
-    })();
-  }, []);
-
   const groupedTodos = todos.reduce((acc, todo) => {
     if (!acc[todo.date]) {
       acc[todo.date] = [];
@@ -59,56 +40,33 @@ export default function MainPage() {
   }, {});
 
   const onAdd = async (text) => {
-    try {
+    const id = Date.now().toString();
       const newTodo = {
+        id,
         title: text,
-        completed: false,
+        check: false,
         userId: 1,
         date: calendarValue.toISOString().split('T')[0],
       };
+      setTodos((prevTodos) => [...prevTodos, newTodo]);
+    };
 
-      await axios.post('https://jsonplaceholder.typicode.com/todos', newTodo);
+    const onDelete = (id) => {
+      setTodos((prevTodos) => {
+        const updatedTodos = prevTodos.filter((todo) => todo.id !== id);
+        setFilteredTodos(updatedTodos.filter((todo) => todo.date === calendarValue.toISOString().split('T')[0]));
+        return updatedTodos;
+      });
+    };
 
-      const id = Math.random().toString(36).substr(2, 9);
-      setTodos((prevTodos) => [
-        ...prevTodos,
-        { id, title: text, check: false, date: newTodo.date },
-      ]);
-    } catch (error) {
-      console.error('할 일을 추가하는 중 오류 발생:', error.message);
-      alert('할 일을 추가하는 데 실패했습니다.');
-    }
-  };
-
-  const onDelete = async (id) => {
-    try {
-      if (id.length <= 5) {
-        await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
-      }
-    } catch (error) {
-      console.warn('서버 삭제 실패. 로컬 상태에서만 삭제합니다.');
-    }
-    setTodos((prevTodos) => {
-      const updatedTodos = prevTodos.filter((todo) => todo.id !== id);
-      setFilteredTodos(updatedTodos.filter((todo) => todo.date === calendarValue.toISOString().split('T')[0]));
-      return updatedTodos;
-    });
-  };
-
-  const onUpdate = async (id, check) => {
-    try {
-      if (id.length <= 5) {
-        await axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`, { completed: check });
-      }
-    } catch (error) {
-      console.warn('서버 업데이트 실패. 로컬 상태만 업데이트합니다.');
-    }
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, check } : todo
-      )
-    );
-  };
+    const onUpdate = (id, check) => {
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, check } : todo
+        )
+      );
+    };
+    
 
   return (
     <div style={{ display: 'flex', gap: '20px', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
@@ -212,8 +170,6 @@ function TodoItem({ todo, onDelete, onUpdate, makeImage, result }) {
         padding: '10px',
         marginBottom: '10px',
         backgroundColor: '#f9f9f9',
-        borderRadius: '5px',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
       }}
     >
       <span
@@ -227,10 +183,7 @@ function TodoItem({ todo, onDelete, onUpdate, makeImage, result }) {
         }}
       >
         {todo.title}
-
-      </span>
-      <button onClick={() => makeImage(todo.title)}>이미지</button>
-      <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
       {result && result[0] && (
           <img
             src={result[0].url}
@@ -239,14 +192,21 @@ function TodoItem({ todo, onDelete, onUpdate, makeImage, result }) {
           />
         )}
       </div>
+
+      </span>
+      <button onClick={() => makeImage(todo.title)}>이미지</button>
+      {/* <div style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+      {result && result[0] && (
+          <img
+            src={result[0].url}
+            alt="Generated"
+            style={{ width: 80, height: 80 }}
+          />
+        )}
+      </div> */}
       <button
         onClick={() => onDelete(todo.id)}
         style={{
-          backgroundColor: '#ff4d4f',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          padding: '5px 10px',
           cursor: 'pointer',
           fontSize: '16px',
           textAlign: 'center',
