@@ -116,14 +116,13 @@ function Update({ title, body, hashTags, img, onUpdate }) {
               style={{
                 width: '128px',
                 height: '128px',
-                border: selectedImage === image.url ? '3px solid blue' : '1px solid gray',
-                cursor: 'pointer',
+                border: selectedImage === image.url ? '4px solid green' : '1px solid gray',
               }}
               onClick={() => setSelectedImage(image.url)}
             />
           ))}
         </div>
-        <button type="submit" style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>수정 완료</button>
+        <button type="submit">수정 완료</button>
       </form>
     </div>
   );
@@ -271,7 +270,7 @@ export default function PostPage({ posts, setPosts }) {
           <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
         ) : (
           <>
-            <button onClick={() => navigate('/list')}style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
+            <button onClick={() => navigate('/list')}>목록</button>
             <h1>{post.title}</h1>
             <p>{post.body}</p>
             {post.hashTags && post.hashTags.length > 0 ? (
@@ -292,7 +291,7 @@ export default function PostPage({ posts, setPosts }) {
                   <img
                     key={index}
                     src={url}
-                    alt={`Post image ${index + 1}`}
+                    alt={`이미지 ${index + 1}`}
                     style={{ width: '150px', height: '150px', margin: '10px', objectFit: 'cover' }}
                   />
                 ))}
@@ -306,8 +305,8 @@ export default function PostPage({ posts, setPosts }) {
               <p>이미지가 없습니다.</p>
             )}
             <br />
-            <button onClick={() => setIsEditing(true)} style={{ padding:'5px 8px', marginRight:'5px',cursor: 'pointer' }}>수정</button>
-            <button onClick={onDelete} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>삭제</button>
+            <button onClick={() => setIsEditing(true)}>수정</button>
+            <button onClick={onDelete}>삭제</button>
           </>
         )}
       <h3>댓글 ({comments.length})</h3>
@@ -325,13 +324,13 @@ export default function PostPage({ posts, setPosts }) {
                       setEditingComment({ ...editingComment, text: e.target.value })
                     }
                   />
-                  <button onClick={onSubmitEditComment} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>확인</button>
+                  <button onClick={onSubmitEditComment}>확인</button>
                 </div>
               ) : (
                 <>
                   {comment.text}
-                  <button onClick={() => setEditingComment(comment)} style={{ padding:'5px 8px', marginLeft: '20px', marginRight:'5px',cursor: 'pointer' }}>수정</button>
-                  <button onClick={() => onDeleteComment(comment.id)} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>삭제</button>
+                  <button onClick={() => setEditingComment(comment)}>수정</button>
+                  <button onClick={() => onDeleteComment(comment.id)}>삭제</button>
                 </>
               )}
             </li>
@@ -347,7 +346,7 @@ export default function PostPage({ posts, setPosts }) {
         placeholder="댓글을 입력하세요"
         style={{width:'50%',padding: '8px',marginRight: '10px'}}
       />
-     <button onClick={() => onAddComment(commentInput)} style={{ padding:'5px 8px', marginRight: '20px', cursor: 'pointer' }}>댓글 작성</button>
+     <button onClick={() => onAddComment(commentInput)}>댓글 작성</button>
     </div>
   );
 }

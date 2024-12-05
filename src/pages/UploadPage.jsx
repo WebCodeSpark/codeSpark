@@ -100,7 +100,7 @@ export default function UploadPage({ posts, setPosts }) {
 
   return (
     <div>
-      <button onClick={() => navigate('/list')} style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>
+      <button onClick={() => navigate('/list')}>
         목록
       </button>
       <br /><br />
@@ -156,8 +156,7 @@ export default function UploadPage({ posts, setPosts }) {
             style={{
               width: 128,
               height: 128,
-              border: selectedImage === image.url ? '3px solid blue' : '1px solid gray',
-              cursor: 'pointer',
+              border: selectedImage === image.url ? '4px solid green' : '1px solid gray',
             }}
             onClick={() => setSelectedImage(image.url)}
             alt={`Generated ${index}`}
@@ -168,7 +167,6 @@ export default function UploadPage({ posts, setPosts }) {
         onClick={() => {
           if (title && body) onAdd(title, body);
         }}
-        className="submit-button"
       > 글 작성</button>
       <style>
         {`
@@ -203,10 +201,6 @@ export default function UploadPage({ posts, setPosts }) {
             margin-left: 5px;
             cursor: pointer;
             color: #999;
-          }
-          .submit-button {
-            padding: 10px;
-            cursor: pointer;
           }
         `}
       </style>
