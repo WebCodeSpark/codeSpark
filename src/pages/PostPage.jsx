@@ -195,8 +195,12 @@ export default function PostPage({ posts, setPosts }) {
 
   const onAddComment = async (commentText) => {
     if (commentText.trim() === '') return;
-  
+    const newId = comments.length > 0 
+    ? Math.max(...comments.map((comment) => Number(comment.id))) + 1 
+    : 1;
+
     const newComment = {
+      id: String(newId),
       text: commentText,
       userId: "2",
       postId: postId, 

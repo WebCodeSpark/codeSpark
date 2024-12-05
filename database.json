@@ -13,6 +13,31 @@
       "username": "코드"
     }
   ],
-  "post": [],
-  "comments": []
+  "post": [
+    {
+      "id": "1",
+      "title": "안녕",
+      "body": "안녕하세요",
+      "hashTags": [
+        "안녕",
+        "Request"
+      ],
+      "userId": 1,
+      "img": ""
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "ㅇㅇ",
+      "userId": "2",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "ㄴㄴㄴ",
+      "userId": "2",
+      "postId": "1"
+    }
+  ]
 }
