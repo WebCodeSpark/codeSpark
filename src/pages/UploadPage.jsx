@@ -99,7 +99,7 @@ export default function UploadPage({ posts, setPosts }) {
   };
 
   return (
-    <div style={{ width: '70%', maxWidth: '1200px', margin: '0 auto' }}>
+    <div>
       <button onClick={() => navigate('/list')} style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>
         목록
       </button>

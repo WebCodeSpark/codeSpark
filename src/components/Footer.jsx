@@ -1,7 +1,5 @@
-// src/components/Footer.jsx
-
 import React from 'react';
-import LinkPage from '../pages/LinkPage';  // LinkPage 컴포넌트 임포트
+import LinkPage from '../pages/LinkPage';
 
 export default function Footer() {
   return (

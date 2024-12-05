@@ -266,7 +266,7 @@ export default function PostPage({ posts, setPosts }) {
   };
  
   return (
-    <div style={{ width: '70%', maxWidth: '1200px', margin: '0 auto' }}>
+    <div>
       {isEditing ? (
           <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
         ) : (
