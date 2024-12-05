@@ -38,9 +38,7 @@
       "id": "3",
       "title": "바보",
       "body": "바보",
-      "hashTags": [
-        "바보"
-      ],
+      "hashTags": [],
       "userId": 1,
       "img": ""
     }
@@ -69,10 +67,6 @@
       "text": "ㅁㄴㅇㅁㄴㅇ",
       "userId": "2",
       "postId": "1"
-    },
-    {
-      "text": "ㅇㅇ",
-      "id": "3df0"
     },
     {
       "id": "f76c",

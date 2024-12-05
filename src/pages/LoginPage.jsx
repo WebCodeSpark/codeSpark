@@ -8,12 +8,11 @@ export default function LoginPage({ setLoggedInUser }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // JSON 서버에서 userlist 가져오기
     (async () => {
       try {
         const response = await fetch('http://localhost:3000/userlist');
         const data = await response.json();
-        setUserlist(data); // 데이터 상태로 저장
+        setUserlist(data); 
       } catch (error) {
         console.error('사용자 데이터를 불러오는 중 오류 발생:', error);
       }
@@ -27,11 +26,10 @@ export default function LoginPage({ setLoggedInUser }) {
     console.log('사용자 입력 비밀번호:', password);
     console.log('데이터베이스 사용자 목록:', userlist);
 
-    // 이메일과 비밀번호가 일치하는 사용자 찾기
     const user = userlist.find((user) => user.email === email && user.password === password);
 
     if (user) {
-      setLoggedInUser(user); // 로그인된 사용자 상태 업데이트
+      setLoggedInUser(user); 
       alert(`${user.username}님, 로그인 성공`);
       navigate('/main');
     } else {
