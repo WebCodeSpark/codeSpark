@@ -56,13 +56,12 @@ export default function ListPage({ posts, setPosts }) {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <input
         type="text"
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
         placeholder="검색어를 입력하세요"
-        style={{ padding: '10px', width: '200px', marginRight: '5px' }}
       />
       <button onClick={handleSearch}>검색</button>
       <button onClick={() => navigate('/upload')}>새 글 작성</button>
@@ -75,7 +74,6 @@ export default function ListPage({ posts, setPosts }) {
           <div key={post.id} style={{ marginBottom: '20px' }}>
             <h2
               onClick={() => navigate(`/post/${post.id}`)}
-              style={{ cursor: 'pointer' }}
             >
               {post.title}
             </h2>
@@ -85,8 +83,6 @@ export default function ListPage({ posts, setPosts }) {
                   display: 'inline-block',
                   backgroundColor: '#f0f0f0',
                   padding: '5px 10px',
-                  margin: '5px',
-                  fontSize: '14px',
                 }}
               >
                 # {post.hashTags.join(' ,  # ')}

@@ -3,20 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { chat, dalle } from './openai'; 
 
-const commonStyle = {
-  hashtag: {
-    display: 'inline-block',
-    backgroundColor: '#f0f0f0',
-    padding: '8px',
-    margin: '5px',
-  },
-  hashtagDelete: {
-    marginLeft: '5px',
-    color: '#999',
-    cursor: 'pointer',
-  },
-};
-
 function Update({ title, body, hashTags, img, onUpdate }) {
   const [newTitle, setNewTitle] = useState(title);
   const [newBody, setNewBody] = useState(body);
@@ -319,7 +305,6 @@ export default function PostPage({ posts, setPosts }) {
                   <input
                     type="text"
                     value={editingComment.text}
-                    style={{width:'50%',padding: '8px',marginRight: '10px'}}
                     onChange={(e) =>
                       setEditingComment({ ...editingComment, text: e.target.value })
                     }
@@ -344,9 +329,21 @@ export default function PostPage({ posts, setPosts }) {
         value={commentInput}
         onChange={(e) => setCommentInput(e.target.value)}
         placeholder="댓글을 입력하세요"
-        style={{width:'50%',padding: '8px',marginRight: '10px'}}
       />
      <button onClick={() => onAddComment(commentInput)}>댓글 작성</button>
     </div>
   );
 }
+
+const commonStyle = {
+  hashtag: {
+    display: 'inline-block',
+    backgroundColor: '#f0f0f0',
+    padding: '8px',
+  },
+  hashtagDelete: {
+    marginLeft: '5px',
+    color: '#999',
+    cursor: 'pointer',
+  },
+};

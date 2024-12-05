@@ -13,40 +13,6 @@
       "username": "코드"
     }
   ],
-  "post": [
-    {
-      "id": "1",
-      "title": "안녕",
-      "body": "바다",
-      "hashTags": [
-        "여행",
-        "밤",
-        "바다"
-      ],
-      "userId": 1,
-      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-2YFD8J5StDDaDT357fVqxfaX.png?st=2024-12-03T15%3A39%3A36Z&se=2024-12-03T17%3A39%3A36Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-03T00%3A39%3A28Z&ske=2024-12-04T00%3A39%3A28Z&sks=b&skv=2024-08-04&sig=SJmwCnNKwmfGdmaZ9XjfoQyn6bmuuOHLZg06KC9LcZo%3D"
-    },
-    {
-      "id": "3",
-      "title": "바보",
-      "body": "ㅁㅁ",
-      "hashTags": [
-        "바보"
-      ],
-      "userId": 1,
-      "img": ""
-    }
-  ],
-  "comments": [
-    {
-      "id": "a81e",
-      "text": "안녕하세요",
-      "userId": "2",
-      "postId": "8"
-    },
-    {
-      "text": "ㄴㅇㄹ",
-      "id": "f76c"
-    }
-  ]
+  "post": [],
+  "comments": []
 }
