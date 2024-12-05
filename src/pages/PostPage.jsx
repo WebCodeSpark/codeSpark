@@ -3,20 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { chat, dalle } from './openai'; 
 
-const commonStyle = {
-  hashtag: {
-    display: 'inline-block',
-    backgroundColor: '#f0f0f0',
-    padding: '8px',
-    margin: '5px',
-  },
-  hashtagDelete: {
-    marginLeft: '5px',
-    color: '#999',
-    cursor: 'pointer',
-  },
-};
-
 function Update({ title, body, hashTags, img, onUpdate }) {
   const [newTitle, setNewTitle] = useState(title);
   const [newBody, setNewBody] = useState(body);
@@ -26,7 +12,6 @@ function Update({ title, body, hashTags, img, onUpdate }) {
   const [generatedImages, setGeneratedImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(img || '');
 
-   // 이미지 생성 요청
    const generateImages = () => {
     const prompt = `다음 문장을 기반으로 이미지를 생성해주세요: ${newBody}`;
     chat(prompt, (result) => {
@@ -40,10 +25,9 @@ function Update({ title, body, hashTags, img, onUpdate }) {
     setNewInputHashTag(e.target.value);
   };
 
-
   const addHashTag = (e) => {
     if (e.key === 'Enter' && newInputHashTag.trim()) {
-      e.preventDefault(); // 폼 제출 방지
+      e.preventDefault();
       e.stopPropagation(); 
       if (newHashTags.length < 5 && !newHashTags.includes(newInputHashTag.trim())) {
         setNewHashTags([...newHashTags, newInputHashTag.trim()]);
@@ -89,7 +73,7 @@ function Update({ title, body, hashTags, img, onUpdate }) {
           value={newInputHashTag}
           onChange={changeHashTagInput}
           onKeyDown={addHashTag} 
-          onKeyUp={keyDownHandler} // 빈 공백 방지
+          onKeyUp={keyDownHandler}
           placeholder="#해시태그를 등록해보세요. (최대 5개)"
           style={{width:'50%'}}
         />
@@ -118,27 +102,26 @@ function Update({ title, body, hashTags, img, onUpdate }) {
               style={{
                 width: '128px',
                 height: '128px',
-                border: selectedImage === image.url ? '3px solid blue' : '1px solid gray',
-                cursor: 'pointer',
+                border: selectedImage === image.url ? '4px solid green' : '1px solid gray',
               }}
               onClick={() => setSelectedImage(image.url)}
             />
           ))}
         </div>
-        <button type="submit" style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>수정 완료</button>
+        <button type="submit">수정 완료</button>
       </form>
     </div>
   );
 }
 
 export default function PostPage({ posts, setPosts }) {
-  const { postId } = useParams(); // URL의 :postId를 가져옴
+  const { postId } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [post, setPost] = useState(null);
-  const [comments, setComments] = useState({}); // 각 게시글 댓글
-  const [commentInput, setCommentInput] = useState(''); // 댓글 입력 상태
-  const [editingComment, setEditingComment] = useState(null); // 댓글 수정 상태
+  const [comments, setComments] = useState({}); 
+  const [commentInput, setCommentInput] = useState('');
+  const [editingComment, setEditingComment] = useState(null);
    
   useEffect(() => {
     const fetchPostAndComments = async () => {
@@ -147,7 +130,7 @@ export default function PostPage({ posts, setPosts }) {
         if (postResponse.status === 200) {
           setPost(postResponse.data);
         }
-        await fetchComments(); // 댓글 가져오기 호출
+        await fetchComments();
       } catch (error) {
         console.error('오류:', error);
       }
@@ -181,7 +164,6 @@ export default function PostPage({ posts, setPosts }) {
       await axios.delete(`http://localhost:3000/post/${post.id}`);
       setPosts(posts.filter((p) => p.id !== post.id));
       navigate('/list'); 
-  
     } catch (error) {
       console.error('오류:', error);
     }
@@ -195,7 +177,6 @@ export default function PostPage({ posts, setPosts }) {
       hashTags,
       img,
     };
-  
     try {
       await axios.put(`http://localhost:3000/post/${post.id}`, updatedPost);
       setPosts(
@@ -206,7 +187,7 @@ export default function PostPage({ posts, setPosts }) {
         )
       );
       setPost(updatedPost);
-      setIsEditing(false); // 수정 완료 후 수정 모드 종료
+      setIsEditing(false); 
     } catch (error) {
       console.error('오류:', error);
     }
@@ -214,8 +195,12 @@ export default function PostPage({ posts, setPosts }) {
 
   const onAddComment = async (commentText) => {
     if (commentText.trim() === '') return;
-  
+    const newId = comments.length > 0 
+    ? Math.max(...comments.map((comment) => Number(comment.id))) + 1 
+    : 1;
+
     const newComment = {
+      id: String(newId),
       text: commentText,
       userId: "2",
       postId: postId, 
@@ -226,7 +211,7 @@ export default function PostPage({ posts, setPosts }) {
       if (response.status === 201) {
         setComments((prevComments) => {
           const updatedComments = [...prevComments, response.data];
-          return updatedComments; // 댓글 추가
+          return updatedComments; 
         });
         setCommentInput('');
       }
@@ -247,40 +232,47 @@ export default function PostPage({ posts, setPosts }) {
   };
   
   const onSubmitEditComment = async () => {
-    if (!editingComment || editingComment.text.trim() === '') return; 
+    if (!editingComment || editingComment.text.trim() === '') return;
+  
+    // 수정된 댓글에 userId와 postId를 추가
+    const updatedComment = {
+      ...editingComment, // 기존의 댓글 정보 그대로 가져오기
+      text: editingComment.text.trim(), // 텍스트만 수정
+      userId: post.userId, // 해당 게시글의 작성자 userId
+      postId: postId, // 해당 게시글의 postId
+    };
+  
     try {
-      // 댓글 수정 요청
       const response = await axios.put(
         `http://localhost:3000/comments/${editingComment.id}`,
-        { text: editingComment.text } // 수정된 텍스트를 전송
+        updatedComment // 수정된 댓글 객체 전송
       );
   
       if (response.status === 200) {
-        // 수정된 댓글을 상태에서 바로 업데이트
-        setComments((prevComments) => 
+        setComments((prevComments) =>
           prevComments.map((comment) =>
             comment.id === editingComment.id
-              ? { ...comment, text: editingComment.text }
+              ? { ...comment, text: editingComment.text } // 수정된 텍스트로 업데이트
               : comment
           )
         );
-        setEditingComment(null); // 수정 모드 종료
+        setEditingComment(null); // 편집 모드 종료
       }
     } catch (error) {
       console.error('오류:', error);
     }
   };
+  
  
   return (
-    <div style={{ width: '70%', maxWidth: '1200px', margin: '0 auto' }}>
+    <div>
       {isEditing ? (
           <Update title={post.title} body={post.body} hashTags={post.hashTags} onUpdate={onUpdate} />
         ) : (
           <>
-            <button onClick={() => navigate('/list')}style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>목록</button>
+            <button onClick={() => navigate('/list')}>목록</button>
             <h1>{post.title}</h1>
             <p>{post.body}</p>
-
             {post.hashTags && post.hashTags.length > 0 ? (
               <div>
                 {post.hashTags.map((tag, index) => (
@@ -299,27 +291,24 @@ export default function PostPage({ posts, setPosts }) {
                   <img
                     key={index}
                     src={url}
-                    alt={`Post image ${index + 1}`}
+                    alt={`이미지 ${index + 1}`}
                     style={{ width: '150px', height: '150px', margin: '10px', objectFit: 'cover' }}
                   />
                 ))}
               </div>
             ) : post.img ? (
               <img
-                src={post.img}
-                alt="Post image"
+                src={post.img} alt="이미지"
                 style={{ width: '150px', height: '150px', objectFit: 'cover' }}
               />
             ) : (
               <p>이미지가 없습니다.</p>
             )}
-
             <br />
-            <button onClick={() => setIsEditing(true)} style={{ padding:'5px 8px', marginRight:'5px',cursor: 'pointer' }}>수정</button>
-            <button onClick={onDelete} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>삭제</button>
+            <button onClick={() => setIsEditing(true)}>수정</button>
+            <button onClick={onDelete}>삭제</button>
           </>
         )}
-
       <h3>댓글 ({comments.length})</h3>
       {comments.length > 0 ? (
         <ul style={{ listStyleType: 'none', paddingLeft: '0' }}>
@@ -330,18 +319,17 @@ export default function PostPage({ posts, setPosts }) {
                   <input
                     type="text"
                     value={editingComment.text}
-                    style={{width:'50%',padding: '8px',marginRight: '10px'}}
                     onChange={(e) =>
                       setEditingComment({ ...editingComment, text: e.target.value })
                     }
                   />
-                  <button onClick={onSubmitEditComment} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>확인</button>
+                  <button onClick={onSubmitEditComment}>확인</button>
                 </div>
               ) : (
                 <>
                   {comment.text}
-                  <button onClick={() => setEditingComment(comment)} style={{ padding:'5px 8px', marginLeft: '20px', marginRight:'5px',cursor: 'pointer' }}>수정</button>
-                  <button onClick={() => onDeleteComment(comment.id)} style={{ padding: '5px 8px', marginRight: '20px', cursor: 'pointer' }}>삭제</button>
+                  <button onClick={() => setEditingComment(comment)}>수정</button>
+                  <button onClick={() => onDeleteComment(comment.id)}>삭제</button>
                 </>
               )}
             </li>
@@ -355,9 +343,21 @@ export default function PostPage({ posts, setPosts }) {
         value={commentInput}
         onChange={(e) => setCommentInput(e.target.value)}
         placeholder="댓글을 입력하세요"
-        style={{width:'50%',padding: '8px',marginRight: '10px'}}
       />
-     <button onClick={() => onAddComment(commentInput)} style={{ padding:'5px 8px', marginRight: '20px', cursor: 'pointer' }}>댓글 작성</button>
+     <button onClick={() => onAddComment(commentInput)}>댓글 작성</button>
     </div>
   );
 }
+
+const commonStyle = {
+  hashtag: {
+    display: 'inline-block',
+    backgroundColor: '#f0f0f0',
+    padding: '8px',
+  },
+  hashtagDelete: {
+    marginLeft: '5px',
+    color: '#999',
+    cursor: 'pointer',
+  },
+};

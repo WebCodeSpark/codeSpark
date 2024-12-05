@@ -16,7 +16,6 @@ class Weather extends Component {
     };
   }
 
-  // 날씨 정보 조회
   componentDidMount() {
     const cityName = 'YongIn';
     const apiKey = process.env.REACT_APP_WEATHER_KEY;
@@ -26,6 +25,7 @@ class Weather extends Component {
       .get(url)
       .then((responseData) => {
         const data = responseData.data;
+        //console.log(responseData);
         this.setState({
           temp: data.main.temp,
           temp_max: data.main.temp_max,
