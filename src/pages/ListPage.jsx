@@ -85,7 +85,7 @@ export default function ListPage({ posts, setPosts }) {
                   padding: '5px 10px',
                 }}
               >
-                # {post.hashTags.join(' ,  # ')}
+                {post.hashTags.join(' , ')}
               </span>
             )}
             <h3>댓글 ({getCommentCount(post.id)})</h3>
