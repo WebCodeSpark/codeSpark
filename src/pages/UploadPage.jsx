@@ -14,7 +14,6 @@ export default function UploadPage({ posts, setPosts }) {
   const [text, setText] = useState('');
   const [result, setReult] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
-
   const navigate = useNavigate();
 
   const makeImage = () => {
@@ -171,7 +170,6 @@ export default function UploadPage({ posts, setPosts }) {
         }}
         className="submit-button"
       > 글 작성</button>
-
       <style>
         {`
           .input-field {
