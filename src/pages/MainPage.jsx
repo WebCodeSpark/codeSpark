@@ -53,7 +53,6 @@ function TodoList({ todos, onDelete, onUpdate, makeImage }) {
   );
 }
 
-
 function TodoItem({ todo, onDelete, onUpdate, makeImage }) {
   return (
     <div
@@ -109,6 +108,12 @@ export default function MainPage() {
 
   const [text, setText] = useState('');
   const [result, setResult] = useState([]);
+
+  const resetToMidnight = (date) => {
+    const resetDate = new Date(date);
+    resetDate.setHours(0, 0, 0, 0);  // 시간을 00:00으로 설정
+    return resetDate;
+  };
 
   const makeImage = (todoId, todoTitle) => {
     const prompt = `다음 문장을 영어로 번역하고, 문장에 맞는 이모지 생성해주세요: "${todoTitle}"`;
@@ -196,7 +201,7 @@ export default function MainPage() {
           }}
         />
         <button
-          onClick={() => setCalendarValue(new Date())}
+          onClick={() => setCalendarValue(resetToMidnight(new Date()))} 
           style={{
             marginTop: '15px',
             width: '100px',
