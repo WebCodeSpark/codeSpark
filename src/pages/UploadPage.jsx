@@ -9,8 +9,8 @@ export default function UploadPage({ posts, setPosts }) {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [inputHashTag, setInputHashTag] = useState('');
-  const [hashTags, setHashTags] = useState([]); // 개별 태그
-  const [recommendedTags, setRecommendedTags] = useState([]); // 추천 해시태그
+  const [hashTags, setHashTags] = useState([]); 
+  const [recommendedTags, setRecommendedTags] = useState([]); 
   const [text, setText] = useState('');
   const [result, setReult] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
@@ -41,10 +41,10 @@ export default function UploadPage({ posts, setPosts }) {
     const prompt = `다음 글을 바탕으로 적절한 해시태그 5개를 추천해주세요: ${body}`;
     chat(prompt, (result) => {
       const tags = result
-        .split(/[ ,#]/) // 공백, 쉼표, 또는 #로 구분
+        .split(/[ ,#]/)
         .map((tag) => tag.trim())
-        .filter((tag) => tag.length > 0) // 빈 문자열 제거
-        .slice(0, 5); // 최대 5개
+        .filter((tag) => tag.length > 0)
+        .slice(0, 5);
       setRecommendedTags(tags);
     });
   };

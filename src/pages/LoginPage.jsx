@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage({ setLoggedInUser }) {
-  const [userlist, setUserlist] = useState([]); // JSON 서버의 사용자 데이터
-  const [email, setEmail] = useState(''); // 입력된 이메일
-  const [password, setPassword] = useState(''); // 입력된 비밀번호
+  const [userlist, setUserlist] = useState([]); 
+  const [email, setEmail] = useState(''); 
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {

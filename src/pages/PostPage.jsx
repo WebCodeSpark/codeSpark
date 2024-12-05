@@ -234,29 +234,28 @@ export default function PostPage({ posts, setPosts }) {
   const onSubmitEditComment = async () => {
     if (!editingComment || editingComment.text.trim() === '') return;
   
-    // 수정된 댓글에 userId와 postId를 추가
     const updatedComment = {
-      ...editingComment, // 기존의 댓글 정보 그대로 가져오기
-      text: editingComment.text.trim(), // 텍스트만 수정
-      userId: post.userId, // 해당 게시글의 작성자 userId
-      postId: postId, // 해당 게시글의 postId
+      ...editingComment, 
+      text: editingComment.text.trim(), 
+      userId: post.userId, 
+      postId: postId, 
     };
   
     try {
       const response = await axios.put(
         `http://localhost:3000/comments/${editingComment.id}`,
-        updatedComment // 수정된 댓글 객체 전송
+        updatedComment 
       );
   
       if (response.status === 200) {
         setComments((prevComments) =>
           prevComments.map((comment) =>
             comment.id === editingComment.id
-              ? { ...comment, text: editingComment.text } // 수정된 텍스트로 업데이트
+              ? { ...comment, text: editingComment.text } 
               : comment
           )
         );
-        setEditingComment(null); // 편집 모드 종료
+        setEditingComment(null); 
       }
     } catch (error) {
       console.error('오류:', error);

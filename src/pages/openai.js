@@ -46,8 +46,6 @@ const chatHistory = async (prompt, messages, onMessage) => {
     }).catch(err=>{console.log(err); onMessage(err.message)})
 } 
 
-   
-
 const dalle = async (prompt, onMessage, n = 1, size = '256x256') => {
     const headers = {  
             "Content-Type": "application/json",

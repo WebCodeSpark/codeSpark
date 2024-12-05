@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css'; // 기본 스타일
+import 'react-calendar/dist/Calendar.css';
 import { chat, dalle } from './openai'; 
 
 function TodoInput({ onAdd }) {
@@ -111,7 +111,7 @@ export default function MainPage() {
 
   const resetToMidnight = (date) => {
     const resetDate = new Date(date);
-    resetDate.setHours(0, 0, 0, 0);  // 시간을 00:00으로 설정
+    resetDate.setHours(0, 0, 0, 0);
     return resetDate;
   };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css'; // 기본 스타일
+import 'react-calendar/dist/Calendar.css';
 import styled from "styled-components";
 
 const StyledCalendarWrapper = styled.div;
