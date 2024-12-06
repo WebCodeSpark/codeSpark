@@ -84,8 +84,13 @@ export default function UploadPage({ posts, setPosts }) {
   const addHashTag = (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && inputHashTag.trim()) {
       e.preventDefault();
-      if (hashTags.length < 5 && !hashTags.includes(inputHashTag.trim())) {
-        setHashTags([...hashTags, inputHashTag.trim()]);
+
+      const formattedTag = inputHashTag.startsWith('#') 
+      ? inputHashTag.trim() 
+      : `#${inputHashTag.trim()}`;
+
+      if (hashTags.length < 5 && !hashTags.includes(formattedTag)) {
+        setHashTags([...hashTags, formattedTag]);
         setInputHashTag('');
       }
     }

@@ -29,8 +29,13 @@ function Update({ title, body, hashTags, img, onUpdate }) {
     if (e.key === 'Enter' && newInputHashTag.trim()) {
       e.preventDefault();
       e.stopPropagation(); 
-      if (newHashTags.length < 5 && !newHashTags.includes(newInputHashTag.trim())) {
-        setNewHashTags([...newHashTags, newInputHashTag.trim()]);
+      
+      const formattedTag = newInputHashTag.startsWith('#') 
+      ? newInputHashTag.trim() 
+      : `#${newInputHashTag.trim()}`;
+
+      if (newHashTags.length < 5 && !newHashTags.includes(formattedTag)) {
+        setNewHashTags([...newHashTags, formattedTag]);
         setNewInputHashTag('');
       }
     }
