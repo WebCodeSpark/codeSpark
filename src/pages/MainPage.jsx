@@ -58,7 +58,6 @@ function TodoItem({ todo, onDelete, onUpdate, makeImage }) {
     <div
       style={{
         display: 'flex',
-        alignItems: 'center',
         padding: '10px',
         marginBottom: '10px',
         backgroundColor: '#f9f9f9',
@@ -71,7 +70,6 @@ function TodoItem({ todo, onDelete, onUpdate, makeImage }) {
           fontSize: '20px',
           textDecoration: todo.check ? 'line-through' : 'none',
           color: todo.check ? '#aaa' : '#333',
-          cursor: 'pointer',
         }}
       >
         {todo.title}
@@ -89,7 +87,6 @@ function TodoItem({ todo, onDelete, onUpdate, makeImage }) {
       <button
         onClick={() => onDelete(todo.id)}
         style={{
-          cursor: 'pointer',
           fontSize: '16px',
           textAlign: 'center',
         }}
@@ -208,7 +205,6 @@ export default function MainPage() {
             height: '35px',
             textAlign: 'center',
             fontSize: '0.9rem',
-            cursor: 'pointer',
           }}
         >
           today

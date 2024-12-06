@@ -276,7 +276,7 @@ export default function PostPage({ posts, setPosts }) {
               <div>
                 {post.hashTags.map((tag, index) => (
                   <span key={index} style={commonStyle.hashtag}>
-                    #{tag}
+                    {tag}
                   </span>
                 ))}
               </div>

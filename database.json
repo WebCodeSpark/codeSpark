@@ -16,49 +16,18 @@
   "post": [
     {
       "id": "1",
-      "title": "리액트를 시작했어요!",
-      "body": "안녕하세요!\n드디어 리액트를 시작하게 되었어요. 🎉 요즘 자바스크립트를 공부하면서 리액트라는 이름을 정말 많이 들었는데, 드디어 저도 이 강력한 라이브러리를 배우게 됐습니다.\n리액트를 선택한 이유 🤔\n리액트를 배우기로 한 이유는 바로 컴포넌트 기반 개발과 재사용성 때문이에요. HTML과 JavaScript를 쓰면서도 뭔가 효율적이지 않다고 느꼈는데, 리액트는 이런 문제를 해결해 준다고 하더라고요. 그리고 요즘 많은 웹 앱들이 리액트로 만들어진다고 해서 더 끌렸습니다.",
+      "title": "리액트는 처음이에요!",
+      "body": "리액트는 처음이에요! 빈가워요!",
       "hashTags": [
-        "리액트",
-        "자바스크립트"
+        "#리액트",
+        "#웹개발",
+        "#리액트초보",
+        "#리액트학습",
+        "#프론트엔드"
       ],
       "userId": 1,
-      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-yhvglW7UOFkoUx9H621UoYA4.png?st=2024-12-05T02%3A18%3A26Z&se=2024-12-05T04%3A18%3A26Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-05T00%3A14%3A02Z&ske=2024-12-06T00%3A14%3A02Z&sks=b&skv=2024-08-04&sig=Wwzo85q/pWJjifHohw5SXpesiWYW4K18xWZZlg7%2Bfx0%3D"
-    },
-    {
-      "id": "2",
-      "title": "다들 리액트 개발할때 어려운 점 없나요?",
-      "body": "안녕하세요, 리액트를 배우고 있는 개발자입니다!\n리액트를 공부하면서 느낀 점이 있는데요... 생각보다 쉽지 않네요. 😂\n\n처음엔 \"컴포넌트 만들고, 상태(state) 관리하면 끝 아니야?\" 싶었는데, 막상 프로젝트를 진행하다 보니 예상 못 한 벽들이 계속 나타나는 것 같아요. ",
-      "hashTags": [
-        "상태관리",
-        "컴포넌트",
-        "리액트",
-        "개발자"
-      ],
-      "userId": 1,
-      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-FulBN1TaEHD6Kmkjt19G66L4.png?st=2024-12-05T02%3A19%3A39Z&se=2024-12-05T04%3A19%3A39Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-05T00%3A20%3A33Z&ske=2024-12-06T00%3A20%3A33Z&sks=b&skv=2024-08-04&sig=QxikePTviGAK/eUUnh6s1x8TueZHhFvltXDssk8X6io%3D"
-    },
-    {
-      "id": "4",
-      "title": "처음 글 올려봐요! 개발에 대해 소통하고싶어요.",
-      "body": "앞으로 개발 소통을 많이 할것입니다!\n반가워요!",
-      "hashTags": [
-        "성장의기쁨",
-        "개발시작",
-        "소통",
-        "개발",
-        "안녕"
-      ],
-      "userId": 1,
-      "img": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-nPVUqF6d8R5lIHZWS54oPNij/user-ed2uhreYMmN3uQJ5Qf1e6YdC/img-xL8lLSXqEqNLljP3PGcxCRsC.png?st=2024-12-05T02%3A35%3A43Z&se=2024-12-05T04%3A35%3A43Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=d505667d-d6c1-4a0a-bac7-5c84a87759f8&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-12-05T00%3A46%3A49Z&ske=2024-12-06T00%3A46%3A49Z&sks=b&skv=2024-08-04&sig=fl0p3VCGuHWKQv7jVA7tQfN4XSVo%2BaoE%2B9qIPT/C00w%3D"
+      "img": ""
     }
   ],
-  "comments": [
-    {
-      "id": "3",
-      "text": "저도 이제 시작했는데 어렵더라고요",
-      "userId": "2",
-      "postId": "2"
-    }
-  ]
+  "comments": []
 }

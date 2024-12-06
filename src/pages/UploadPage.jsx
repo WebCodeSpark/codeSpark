@@ -14,6 +14,7 @@ export default function UploadPage({ posts, setPosts }) {
   const [text, setText] = useState('');
   const [result, setReult] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
+
   const navigate = useNavigate();
 
   const makeImage = () => {
@@ -38,17 +39,18 @@ export default function UploadPage({ posts, setPosts }) {
 
   const fetchRecommendedTags = () => {
     if (!body.trim()) return;
+  
     const prompt = `다음 글을 바탕으로 적절한 해시태그 5개를 추천해주세요: ${body}`;
     chat(prompt, (result) => {
       const tags = result
-        .split(/[ ,#]/)
-        .map((tag) => tag.trim())
-        .filter((tag) => tag.length > 0)
-        .slice(0, 5);
+        .split("\n") 
+        .map((line) => line.replace(/^\d+\.\s*/, "").trim()) 
+        .slice(0, 5); 
+      
       setRecommendedTags(tags);
     });
   };
-
+  
   useEffect(() => {
     (async () => {
       if (posts.length === 0) {
@@ -78,6 +80,7 @@ export default function UploadPage({ posts, setPosts }) {
   };
 
   const changeHashTagInput = (e) => setInputHashTag(e.target.value);
+
   const addHashTag = (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && inputHashTag.trim()) {
       e.preventDefault();
@@ -100,10 +103,11 @@ export default function UploadPage({ posts, setPosts }) {
 
   return (
     <div>
-      <button onClick={() => navigate('/list')}>
+      <button onClick={() => navigate('/list')} style={{ padding: '9px', marginRight: '20px', cursor: 'pointer' }}>
         목록
       </button>
-      <br /><br />
+      <br />
+      <br />
       <input
         type="text"
         onChange={(e) => setTitle(e.target.value)}
@@ -111,6 +115,7 @@ export default function UploadPage({ posts, setPosts }) {
         placeholder="제목을 입력하세요"
         className="input-field"
       />
+
       <textarea
         onChange={handleChange}
         value={body}
@@ -122,13 +127,15 @@ export default function UploadPage({ posts, setPosts }) {
       <button onClick={fetchRecommendedTags} style={{ marginBottom: '10px' }}>
         해시태그 추천
       </button>
+    
       <div className="recommended-tags">
         {recommendedTags.map((tag, index) => (
           <span key={index} className="recommended-tag" onClick={() => addRecommendedTag(tag)}>
-            #{tag}
+            {tag}
           </span>
         ))}
       </div>
+
       <input
         value={inputHashTag}
         onChange={changeHashTagInput}
@@ -136,6 +143,7 @@ export default function UploadPage({ posts, setPosts }) {
         placeholder="#해시태그를 등록해보세요. (최대 5개)"
         className="input-field"
       />
+
       <div className="hash-tags">
         {hashTags.map((tag, index) => (
           <span className="hash-tag" key={index}>
@@ -146,6 +154,7 @@ export default function UploadPage({ posts, setPosts }) {
           </span>
         ))}
       </div>
+
       <br />
       <button onClick={makeImage}> 이미지 생성</button>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '10px', marginBottom: '10px' }}>
@@ -156,7 +165,8 @@ export default function UploadPage({ posts, setPosts }) {
             style={{
               width: 128,
               height: 128,
-              border: selectedImage === image.url ? '4px solid green' : '1px solid gray',
+              border: selectedImage === image.url ? '3px solid blue' : '1px solid gray',
+              cursor: 'pointer',
             }}
             onClick={() => setSelectedImage(image.url)}
             alt={`Generated ${index}`}
@@ -167,7 +177,11 @@ export default function UploadPage({ posts, setPosts }) {
         onClick={() => {
           if (title && body) onAdd(title, body);
         }}
-      > 글 작성</button>
+        className="submit-button"
+      >
+        글 작성
+      </button>
+
       <style>
         {`
           .input-field {
@@ -201,6 +215,10 @@ export default function UploadPage({ posts, setPosts }) {
             margin-left: 5px;
             cursor: pointer;
             color: #999;
+          }
+          .submit-button {
+            padding: 10px;
+            cursor: pointer;
           }
         `}
       </style>
